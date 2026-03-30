@@ -1,5 +1,20 @@
 // main.js - Initialization and Event Wiring
 
+function resolveVariantDisplay(uname) {
+    const variantCodeMatch = uname.match(/-v\d+\.\d+(?:\.\d+)?[a-z]*(?:-([A-Z0-9]+))?(?=-|$)/);
+    const variantCode = variantCodeMatch ? variantCodeMatch[1] || '' : '';
+
+    if (!variantCode) {
+        return t('about.variantStandard');
+    }
+
+    if (window.VARIANTS && Object.prototype.hasOwnProperty.call(window.VARIANTS, variantCode)) {
+        return window.VARIANTS[variantCode];
+    }
+
+    return variantCode;
+}
+
 // Updates variant and build type strings (called on init and language change)
 function updateTranslatableHomeStrings() {
     const uname = window._cachedUname;
@@ -9,16 +24,7 @@ function updateTranslatableHomeStrings() {
     const buildTypeEl = document.getElementById('build-type');
 
     // Update Variant
-    let variantFound = t('about.variantStandard');
-    if (window.VARIANTS) {
-        for (const [code, name] of Object.entries(window.VARIANTS)) {
-            const regex = new RegExp(`-${code}(-|$)`);
-            if (regex.test(uname)) {
-                variantFound = name;
-                break;
-            }
-        }
-    }
+    const variantFound = resolveVariantDisplay(uname);
     if (variantEl) variantEl.textContent = variantFound;
 
     // Update Build Type
@@ -497,16 +503,7 @@ async function init() {
 
         window._cachedUname = uname; // Cache for language change handler
         // Parse Variant
-        let variantFound = t('about.variantStandard');
-        if (window.VARIANTS) {
-            for (const [code, name] of Object.entries(window.VARIANTS)) {
-                const regex = new RegExp(`-${code}(-|$)`);
-                if (regex.test(uname)) {
-                    variantFound = name;
-                    break;
-                }
-            }
-        }
+        const variantFound = resolveVariantDisplay(uname);
         if (variantEl) variantEl.textContent = variantFound;
 
         // Parse Release Status

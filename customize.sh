@@ -19,6 +19,10 @@ get_device_prop() {
     return 1
 }
 
+extract_variant_code() {
+    echo "$1" | sed -n -E 's/.*-v[0-9]+\.[0-9]+(\.[0-9]+)?[a-z]*(\-([A-Z0-9]+))?(-.*)?$/\3/p'
+}
+
 resolve_kernel_name() {
     DEVICE_NAME=$(get_device_prop device_name | tr '[:upper:]' '[:lower:]')
 
@@ -48,13 +52,7 @@ if echo "$KERN_VER" | grep -q "Floppy"; then
     VERSION=$(echo "$KERN_VER" | grep -o -E '\-v[0-9]+\.[0-9]+(\.[0-9]+)?[a-z]*' | tr -d '-')
 
     # Parse variant
-    VARIANT=""
-    for v in V SKS KN RKS; do
-        if echo "$KERN_VER" | grep -q "\-$v"; then
-            VARIANT="$v"
-            break
-        fi
-    done
+    VARIANT=$(extract_variant_code "$KERN_VER")
 
     # Parse build type
     if echo "$KERN_VER" | grep -q "\-release"; then

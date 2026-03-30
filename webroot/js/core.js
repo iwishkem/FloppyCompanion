@@ -4,7 +4,9 @@
 window.VARIANTS = {
     'V': 'Vanilla',
     'KN': 'KernelSU Next',
+    'MBS': 'MamboSU',
     'RKS': 'RKSU',
+    'RESKS': 'ReSukiSU',
     'SKS': 'SukiSU Ultra'
 };
 
