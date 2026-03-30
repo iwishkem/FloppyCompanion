@@ -46,7 +46,8 @@
         "tooltipReadOnlyAllowed": "Changing this feature's state is temporarily allowed, but will not be saved.",
         "tooltipReadOnlyBlocked": "This feature's state cannot be changed from the UI normally (read-only).",
         "tooltipExperimental": "Experimental",
-        "currentLabel": "Current:"
+        "currentLabel": "Current:",
+        "noSupportYet": "Feature support is not available for this device yet."
     },
     "monitor": {
         "title": "Monitor",

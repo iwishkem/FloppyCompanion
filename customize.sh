@@ -9,11 +9,40 @@ ui_print ""
 # Get kernel version
 KERN_VER=$(uname -r)
 
+get_device_prop() {
+    for prop_path in "/sys/kernel/sec_detect/$1" "/sys/mi_detect/$1"; do
+        if [ -r "$prop_path" ]; then
+            cat "$prop_path"
+            return 0
+        fi
+    done
+    return 1
+}
+
+resolve_kernel_name() {
+    DEVICE_NAME=$(get_device_prop device_name | tr '[:upper:]' '[:lower:]')
+
+    case "$DEVICE_NAME" in
+        a25x|a33x|a53x|m33x|m34x|gta4xls|a26xs)
+            echo "Floppy1280"
+            ;;
+        r9s|o1s|p3s|t2s)
+            echo "Floppy2100"
+            ;;
+        *ginkgo*|*willow*|*sm6125*|*trinket*|*laurel_sprout*)
+            echo "FloppyTrinketMi"
+            ;;
+        *)
+            echo "$(echo "$1" | grep -o 'Floppy[A-Za-z0-9]*' | head -n 1)"
+            ;;
+    esac
+}
+
 ui_print "- Detecting kernel..."
 
 if echo "$KERN_VER" | grep -q "Floppy"; then
     # Parse kernel name (Floppy1280, FloppyTrinketMi, etc)
-    KERN_NAME=$(echo "$KERN_VER" | grep -o 'Floppy[A-Za-z0-9]*')
+    KERN_NAME=$(resolve_kernel_name "$KERN_VER")
 
     # Parse version (including suffix like "v2.0b" or patch v6.2.1)
     VERSION=$(echo "$KERN_VER" | grep -o -E '\-v[0-9]+\.[0-9]+(\.[0-9]+)?[a-z]*' | tr -d '-')

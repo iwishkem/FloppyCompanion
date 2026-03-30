@@ -11,6 +11,7 @@ window.VARIANTS = {
 window.DATA_DIR = '/data/adb/modules/floppy_companion';
 
 window.FLOPPY1280_DEVICES = ['a25x', 'a33x', 'a53x', 'm33x', 'm34x', 'gta4xls', 'a26xs'];
+window.FLOPPY2100_DEVICES = ['r9s', 'o1s', 'p3s', 't2s'];
 
 // --- KSU Execution Wrapper ---
 let callbackCounter = 0;

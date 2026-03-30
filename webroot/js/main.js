@@ -400,7 +400,7 @@ async function init() {
 
     // Pass device context to features module
     if (window.setDeviceContext) {
-        window.setDeviceContext(devInfo.isTrinketMi);
+        window.setDeviceContext(devInfo.familyKey);
     }
 
     if (deviceEl) {
@@ -423,7 +423,7 @@ async function init() {
     }
 
     // Theme & Device Name Chip
-    const shouldAnimateDetectionTheme = devInfo.isTrinketMi || devInfo.is1280;
+    const shouldAnimateDetectionTheme = !!(devInfo.isTrinketMi || devInfo.is1280 || devInfo.is2100);
     if (shouldAnimateDetectionTheme) {
         document.body.classList.add('theme-detect-anim');
         setTimeout(() => document.body.classList.remove('theme-detect-anim'), 1700);
@@ -433,18 +433,17 @@ async function init() {
         requestAnimationFrame(() => document.body.classList.add('theme-orange'));
         swapManagedDeviceName('FloppyTrinketMi', { i18nKey: null });
         window.KERNEL_NAME = 'FloppyTrinketMi';
-    } else if (devInfo.is1280) {
+    } else if (devInfo.is1280 || devInfo.is2100) {
         requestAnimationFrame(() => document.body.classList.add('theme-exynos-blue'));
-        swapManagedDeviceName('Floppy1280', { i18nKey: null });
-        window.KERNEL_NAME = 'Floppy1280';
+        swapManagedDeviceName(devInfo.kernelName || 'FloppyKernel', { i18nKey: null });
+        window.KERNEL_NAME = devInfo.kernelName || 'FloppyKernel';
     } else {
         swapManagedDeviceName(unknownText(), { i18nKey: 'unknown' });
         window.KERNEL_NAME = 'FloppyKernel';
     }
 
     // Features gate (future platforms can set devInfo.featuresSupported = false).
-    const detectedKnownPlatform = !!(devInfo.isTrinketMi || devInfo.is1280);
-    const featuresSupported = detectedKnownPlatform && devInfo.featuresSupported !== false;
+    const featuresSupported = !!devInfo.featuresSupported;
     window.setFeaturesSupported(featuresSupported);
 
     // Seed superfloppy mode from /proc/cmdline BEFORE platform tweaks init,
@@ -476,7 +475,7 @@ async function init() {
     // Platform-specific reboot options
     const samsungOptions = document.querySelectorAll('.platform-samsung');
     const trinketOptions = document.querySelectorAll('.platform-trinket');
-    if (devInfo.is1280) {
+    if (devInfo.is1280 || devInfo.is2100) {
         samsungOptions.forEach(el => el.classList.remove('hidden'));
     }
     if (devInfo.isTrinketMi) {
@@ -546,7 +545,7 @@ async function init() {
 
             // Parse kernel name from uname
             const kernelNameMatch = uname.match(/Floppy[A-Za-z0-9]*/);
-            const kernelName = kernelNameMatch ? kernelNameMatch[0] : '';
+            const kernelName = window.KERNEL_NAME || (kernelNameMatch ? kernelNameMatch[0] : '');
 
             // Floppy1280: minimum v6.2
             if (kernelName === 'Floppy1280') {
@@ -593,6 +592,8 @@ async function init() {
                 { icon: 'telegram', text: 'Floppy1280 channel', url: 'https://t.me/Floppy1280' },
                 { icon: 'telegram', text: 'Floppy1280 group', url: 'https://t.me/Floppy1280_Chat' }
             ];
+        } else if (devInfo.is2100) {
+            kernelName = 'Floppy2100';
         } else if (devInfo.isTrinketMi) {
             kernelName = 'FloppyTrinketMi';
             kernelLinks = [
@@ -602,7 +603,7 @@ async function init() {
             ];
         }
 
-        if (kernelName) {
+        if (kernelName && kernelLinks.length > 0) {
             kernelLinksHeader.setAttribute('data-i18n', 'about.kernelLinksTemplate');
             kernelLinksHeader.setAttribute('data-i18n-params', JSON.stringify({ name: kernelName }));
             // Apply immediately

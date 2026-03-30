@@ -28,7 +28,7 @@ async function resolveDeviceInfo() {
     let deviceModel = null;
     let isTrinketMi = false;
     let is1280 = false;
-    let isFloppyKernel = false;
+    let is2100 = false;
 
     // Try to read device info
     const namePaths = [
@@ -52,10 +52,28 @@ async function resolveDeviceInfo() {
     if (deviceName) {
         // Theme & Identification Logic
         const TRINKET_DEVICES = ['ginkgo', 'willow', 'sm6125', 'trinket', 'laurel_sprout'];
-        const deviceCode = (deviceName || '').toLowerCase();
+        const deviceCode = (deviceName || '').trim().toLowerCase();
 
         isTrinketMi = isTrinketMi || TRINKET_DEVICES.some(code => deviceCode.includes(code));
-        is1280 = is1280 || window.FLOPPY1280_DEVICES.includes(deviceName);
+        is1280 = is1280 || window.FLOPPY1280_DEVICES.includes(deviceCode);
+        is2100 = is2100 || window.FLOPPY2100_DEVICES.includes(deviceCode);
+    }
+
+    let familyKey = null;
+    let kernelName = null;
+    let featuresSupported = false;
+
+    if (isTrinketMi) {
+        familyKey = 'trinket';
+        kernelName = 'FloppyTrinketMi';
+        featuresSupported = true;
+    } else if (is2100) {
+        familyKey = '2100';
+        kernelName = 'Floppy2100';
+    } else if (is1280) {
+        familyKey = '1280';
+        kernelName = 'Floppy1280';
+        featuresSupported = true;
     }
 
     return {
@@ -64,5 +82,9 @@ async function resolveDeviceInfo() {
         displayName: deviceModel ? `${deviceModel} (${deviceName})` : (deviceName || 'Unknown'),
         isTrinketMi: isTrinketMi,
         is1280: is1280,
+        is2100: is2100,
+        familyKey: familyKey,
+        kernelName: kernelName,
+        featuresSupported: featuresSupported,
     };
 }

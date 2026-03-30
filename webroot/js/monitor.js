@@ -501,6 +501,7 @@
         const kernelName = window.KERNEL_NAME || '';
         const is1280 = kernelName === 'Floppy1280';
         const isTrinket = kernelName === 'FloppyTrinketMi';
+        const featureFamilyKey = is1280 ? '1280' : null;
 
         const unlockedRow = document.getElementById('monitor-unlocked-row');
         const emsRow = document.getElementById('monitor-ems-row');
@@ -524,7 +525,7 @@
 
         if (showUnlocked) {
             if (superfloppy && superfloppy !== '0') {
-                const label = tf('superfloppy', 'label', superfloppy, '1280');
+                const label = featureFamilyKey ? tf('superfloppy', 'label', superfloppy, featureFamilyKey) : null;
                 setText('monitor-unlocked-value', label || `${enabledLabel} (${superfloppy})`);
             } else {
                 setText('monitor-unlocked-value', offLabel);

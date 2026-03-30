@@ -8,7 +8,7 @@ let currentSchema = null; // Current feature schema
 let currentProcCmdline = null; // Current /proc/cmdline
 let currentFamily = null; // Current device family key for translation
 let currentPatchMode = 'kernel'; // Current patch mode (kernel/header)
-let isTrinketMi = false; // State for schema selection (set during init)
+let currentDeviceFamily = null; // State for schema selection (set during init)
 
 // --- Backend Communication ---
 
@@ -59,8 +59,8 @@ function stopLogPolling() {
 // --- Feature Logic ---
 
 // Set device type for schema selection (called from main.js)
-function setDeviceContext(isTrinket) {
-    isTrinketMi = isTrinket;
+function setDeviceContext(familyKey) {
+    currentDeviceFamily = familyKey || null;
 }
 
 // Helper to expose to UI
@@ -92,7 +92,16 @@ async function loadFeatures() {
         const featureData = await response.json();
 
         // Get device family data
-        const familyKey = isTrinketMi ? 'trinket' : '1280';
+        const familyKey = currentDeviceFamily;
+        if (!familyKey || !featureData.device_families[familyKey]) {
+            const unsupportedText = window.t ? t('features.noSupportYet') : '';
+            const fallbackText = unsupportedText && !String(unsupportedText).startsWith('features.')
+                ? unsupportedText
+                : 'No feature support is available for this device yet.';
+            featuresContainer.innerHTML = `<p class="text-center p-4">${fallbackText}</p>`;
+            return;
+        }
+
         const deviceFamily = featureData.device_families[familyKey];
         if (!deviceFamily) {
             throw new Error(`Unknown device family: ${familyKey}`);
