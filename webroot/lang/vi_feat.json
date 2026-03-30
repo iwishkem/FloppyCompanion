@@ -1,0 +1,72 @@
+{
+    "1280": {
+        "superfloppy": {
+            "title": "Chế độ Mở khoá",
+            "desc": "Tinh chỉnh xung CPU và GPU cho FloppyKernel.",
+            "options": {
+                "1": {
+                    "label": "Đã bật (Ép xung)",
+                    "desc": "CL0 = 2.2 GHz (OC), CL1 = 2.496 GHz (OC), GPU = 1.209 GHz (OC), UV đã tắt."
+                },
+                "2": {
+                    "label": "MegaFloppy (Ép xung, rủi ro)",
+                    "desc": "CL0 = 2.2 GHz (OC), CL1 = 2.6 GHz (OC), GPU = 1.209 GHz (OC), UV đã tắt."
+                },
+                "3": {
+                    "label": "UltraFloppy (Ép xung, rủi ro)",
+                    "desc": "CL0 = 2.2 GHz (OC), CL1 = 2.704 GHz (OC), GPU = 1.209 GHz (OC), UV đã tắt."
+                },
+                "4": {
+                    "label": "CoolFloppy (Hạ xung)",
+                    "desc": "CL0 = 2.0 GHz (gốc), CL1 = 2.112 GHz (UC), GPU = 897 MHz (gốc), UV đã bật."
+                },
+                "5": {
+                    "label": "BalancedFloppy (Ép xung)",
+                    "desc": "CL0 = 2.2 GHz (OC), CL1 = 2.4 GHz (gốc), GPU = 897 MHz (gốc), UV đã tắt."
+                }
+            }
+        }
+    },
+    "force_perm": {
+        "title": "Buộc Cho phép",
+        "desc": "Buộc SELinux ở chế độ Cho phép. Dành cho các nhà phát triển."
+    },
+    "ems_efficient": {
+        "title": "Chế độ Hiệu quả EMS",
+        "desc": "Kích hoạt chế độ bộ lập lịch hiệu quả EMS. Giảm hiệu năng và cải thiện thời lượng pin."
+    },
+    "aosp_mode": {
+        "title": "Chế độ AOSP",
+        "desc": "Bật các hack đặc thù cho AOSP."
+    },
+    "no_init_protection": {
+        "title": "Diệt Bảo vệ Khởi tạo",
+        "desc": "Cho phép Power HAL và các tập lệnh khởi tạo sửa đổi các thiết lập kernel. Bật tùy chọn này nếu bạn muốn ROM điều khiển hiệu năng."
+    },
+    "legacy_timestamp_source": {
+        "title": "Dấu thời gian Cũ",
+        "desc": "Khắc phục sự cố thời lượng quay video trên các ROM có HAL camera cũ."
+    },
+    "no_msm_perf_boost": {
+        "title": "Tắt Tăng cường MSM",
+        "desc": "Ngăn Hiệu năng MSM ghi đè lên tần số tối thiểu/tối đa của CPU. Có thể làm giảm phản hồi."
+    },
+    "warm_reboot": {
+        "title": "Buộc Khởi động lại Ấm",
+        "desc": "Giữ lại RAM khi khởi động lại để thu thập nhật ký dễ dàng hơn. Khuyến nghị sử dụng cho mục đích gỡ lỗi, có thể làm hỏng Wi-Fi."
+    },
+    "uname_bpf_spoof": {
+        "title": "Giả mạo BPF",
+        "desc": "Giả mạo phiên bản Linux để hỗ trợ BPF. Được quản lý bên ngoài; việc thay đổi thủ công có thể gây ra vòng lặp khởi động.",
+        "options": {
+            "1": {
+                "label": "Giả mạo một phần",
+                "desc": "Giả mạo chỉ mỗi uname cho netbpfload."
+            },
+            "5": {
+                "label": "Giả mạo đầy đủ",
+                "desc": "Giả mạo uname cho một số dịch vụ liên quan đến BPF."
+            }
+        }
+    }
+}

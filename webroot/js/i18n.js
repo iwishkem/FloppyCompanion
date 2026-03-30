@@ -11,6 +11,7 @@ const I18N = {
         { code: 'en', name: 'English' },
         { code: 'es', name: 'Español' },
         { code: 'tr', name: 'Türkçe' },
+        { code: 'vi', name: 'Tiếng Việt' },
         { code: "uk", name: "Українська" },
         { code: 'ru' , name: 'Русский' },
         { code: 'ar', name: 'العربية' },
