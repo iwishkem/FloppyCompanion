@@ -1,5 +1,5 @@
 #!/system/bin/sh
-# Misc Floppy1280 Tweaks Backend Script
+# Misc Exynos Tweaks Backend Script
 # Handles: Block ED3, GPU Clock Lock, GPU Overclock
 
 DATA_DIR="/data/adb/floppy_companion"
@@ -18,6 +18,12 @@ is_available() {
     else
         echo "available=0"
     fi
+}
+
+get_capabilities() {
+    [ -f "$BLOCK_ED3_NODE" ] && echo "block_ed3=1" || echo "block_ed3=0"
+    [ -f "$GPU_CLKLCK_NODE" ] && echo "gpu_clklck=1" || echo "gpu_clklck=0"
+    [ -f "$GPU_UNLOCK_NODE" ] && echo "gpu_unlock=1" || echo "gpu_unlock=0"
 }
 
 # Get current state from kernel
@@ -156,6 +162,9 @@ case "$1" in
     get_current)
         get_current
         ;;
+    get_capabilities)
+        get_capabilities
+        ;;
     get_saved)
         get_saved
         ;;
@@ -172,7 +181,7 @@ case "$1" in
         clear_saved_key "$2"
         ;;
     *)
-        echo "usage: $0 {is_available|get_current|get_saved|save|apply|apply_saved|clear_saved_key}"
+        echo "usage: $0 {is_available|get_current|get_capabilities|get_saved|save|apply|apply_saved|clear_saved_key}"
         exit 1
         ;;
 esac

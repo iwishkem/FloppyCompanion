@@ -8,6 +8,7 @@
         "var": "kernelName",
         "in": [
           "Floppy1280",
+          "Floppy2100",
           "FloppyTrinketMi"
         ]
       },
@@ -51,19 +52,22 @@
           "tooltipKey": null,
           "controlRules": [
             {
-              "id": "gpu_unlock",
-              "selector": "#misc-gpuunlock-switch",
-              "mode": "disable",
-              "dimClosest": ".tweak-switch-container",
+              "id": "gpu_clklck_hide_2100",
+              "selector": "#misc-gpuclklck-switch",
+              "mode": "hide",
+              "hideClosest": ".tweak-row",
               "requires": {
-                "var": "isUnlockedOcMode",
-                "truthy": true
+                "var": "kernelName",
+                "eq": "Floppy1280"
               }
             }
           ],
           "requires": {
             "var": "kernelName",
-            "eq": "Floppy1280"
+            "in": [
+              "Floppy1280",
+              "Floppy2100"
+            ]
           }
         },
         {
