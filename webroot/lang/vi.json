@@ -333,7 +333,7 @@
         "settingsSaved": "Cài đặt đã được lưu",
         "settingsApplied": "Cài đặt đã được áp dụng",
         "settingsFailed": "Thất bại khi áp dụng cài đặt",
-        "logSaved": "Nhật ví được lưu vào {path}",
+        "logSaved": "Nhật ký được lưu vào {path}",
         "logFailed": "Thất bại khi lưu nhật ký",
         "copied": "Đã sao chép vào bảng nhớ tạm",
         "presetLoadFailed": "Thất bại khi tải thiết lập sẵn",
