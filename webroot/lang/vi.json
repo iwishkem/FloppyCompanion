@@ -137,6 +137,10 @@
         "apply": "Áp dụng",
         "saveApply": "Lưu & Áp dụng",
         "unsaved": "Chưa được lưu",
+        "resetCard": "Khôi phục mặc định",
+        "resetTweakTitle": "Khôi phục mặc định",
+        "resetTweakDesc": "Thao tác này sẽ xóa cấu hình đã lưu cho \"{name}\" và tải lại cấu hình mặc định đã ghi của nó.",
+        "resetTweakWarning": "Những thay đổi chưa được lưu của bạn trên thẻ này sẽ được thay thế.",
         "zram": {
             "title": "ZRAM",
             "enable": "Bật ZRAM",
@@ -211,6 +215,7 @@
             "title": "Giảm điện áp",
             "little": "Cụm Nhỏ",
             "big": "Cụm Lớn",
+            "prime": "Cụm Chính",
             "gpu": "GPU",
             "unlockRange": "Mở khóa toàn bộ phạm vi",
             "notice": "Các cài đặt giảm điện áp đã bị xóa vì bạn đã bật hoặc thay đổi Chế độ Mở khóa. Điều này giúp ngăn ngừa sự cố do cấu hình giảm điện áp không tương thích.",
