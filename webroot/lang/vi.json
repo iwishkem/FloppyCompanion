@@ -191,7 +191,7 @@
             "swapFreeLowPercentage": "Swap Trống % Thấp",
             "enabled": "Đã bật",
             "disabled": "Đã tắt",
-            "requiresLegacyMinfree": "Yêy cầu memcg cũ (cgroup v1)",
+            "requiresLegacyMinfree": "Yêu cầu memcg cũ (cgroup v1)",
             "requiresVmpressureFallback": "Việc tắt này yêu cầu cơ chế dự phòng vmpressure. (cgroup v1)"
         },
         "iosched": {
