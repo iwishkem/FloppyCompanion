@@ -573,6 +573,7 @@ beer-css {
 .status-icon-wrapper.beer {
     min-inline-size: 22px;
     min-block-size: 22px;
+    transform: translateX(-2px);
 }
 
 .status-icon-button {
@@ -590,7 +591,6 @@ beer-css {
     color: var(--md-sys-color-on-surface-variant);
     padding: 0 !important;
     overflow: visible;
-    transform: translateX(-2px);
 }
 
 .tooltip-anchor {
@@ -656,46 +656,103 @@ beer-css {
     inset-inline-end: 0;
     inset-inline-start: auto;
     transform: none;
-    background-color: var(--md-sys-color-surface-variant);
-    color: var(--md-sys-color-on-surface-variant);
-    padding: 8px 12px;
-    border-radius: 8px;
+    background-color: var(--md-sys-color-inverse-surface);
+    color: var(--md-sys-color-inverse-on-surface);
+    padding: 10px 14px;
+    border-radius: 12px;
     font-size: 12px;
     width: max-content;
-    max-width: 200px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    z-index: 100;
+    max-width: 220px;
+    min-width: 96px;
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.18),
+        0 6px 14px rgba(0, 0, 0, 0.22);
+    z-index: 120;
     pointer-events: none;
     text-align: start;
     white-space: normal;
     text-transform: none;
-    font-weight: 400;
+    font-weight: 500;
     font-family: 'Roboto', sans-serif;
-    letter-spacing: normal;
-    line-height: 1.4;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
 }
 
 .status-bubble.center {
     inset-inline-start: 50%;
     inset-inline-end: auto;
     transform: translateX(-50%); /* This needs to remain physical or be handled by logic if needed, but centering X is direction neutral usually */
-    width: 200px;
+    width: min(220px, calc(100vw - 48px));
 }
 
 .status-bubble::after {
     content: '';
     position: absolute;
-    top: 100%;
-    inset-inline-end: 10px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: var(--md-sys-color-surface-variant) transparent transparent transparent;
+    top: calc(100% - 2px);
+    inset-inline-end: 8px;
+    inline-size: 14px;
+    block-size: 8px;
+    background-color: var(--md-sys-color-inverse-surface);
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
 }
 
-.status-bubble.center::after {
+.status-bubble::before {
+    content: '';
+    position: absolute;
+    top: calc(100% - 3px);
+    inset-inline-end: 8px;
+    inline-size: 12px;
+    block-size: 4px;
+    background-color: var(--md-sys-color-inverse-surface);
+}
+
+.status-bubble.bottom {
+    top: 125%;
+    bottom: auto;
+}
+
+.status-bubble.bottom::before {
+    top: auto;
+    bottom: calc(100% - 3px);
+}
+
+.status-bubble.bottom::after {
+    top: auto;
+    bottom: calc(100% - 2px);
+    clip-path: polygon(50% 0, 0 100%, 100% 100%);
+}
+
+.status-bubble.bottom.center::before,
+.status-bubble.bottom.center::after {
     inset-inline-start: 50%;
     inset-inline-end: auto;
-    margin-inline-start: -5px;
+}
+
+.status-bubble.bottom.center::before,
+.status-bubble:not(.bottom).center::before {
+    margin-inline-start: -6px;
+}
+
+.status-bubble.bottom.center::after,
+.status-bubble:not(.bottom).center::after {
+    margin-inline-start: -7px;
+}
+
+.status-bubble.bottom.left::before,
+.status-bubble.bottom.left::after {
+    inset-inline-start: 10px;
+    inset-inline-end: auto;
+}
+
+.status-bubble:not(.bottom)::after {
+    top: 100%;
+    bottom: auto;
+}
+
+.status-bubble:not(.bottom).center::before,
+.status-bubble:not(.bottom).center::after {
+    inset-inline-start: 50%;
+    inset-inline-end: auto;
 }
 
 /* Left-aligned tooltip - extends to the right */
@@ -705,7 +762,9 @@ beer-css {
     transform: none;
 }
 
-.status-bubble.left::after {
+.status-bubble.left::after,
+.status-bubble.left::before,
+.status-bubble:not(.bottom).left::after {
     inset-inline-start: 10px;
     inset-inline-end: auto;
 }
