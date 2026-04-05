@@ -97,6 +97,39 @@
                     "type": "toggle",
                     "desc": "Injects mass_storage gadget handling into the vendor's init.exynos2100.usb.rc script to allow apps like DriveDroid to work.",
                     "save": true
+                },
+                {
+                    "key": "init_protection",
+                    "title": "Init Protection",
+                    "type": "toggle",
+                    "desc": "Prevent Power HALs and init scripts from modifying kernel knobs. Disable if you want the ROM to control performance.",
+                    "save": true,
+                    "persist_type": "keyval"
+                },
+                {
+                    "key": "selinux_mode",
+                    "title": "Force SELinux mode",
+                    "type": "select",
+                    "desc": "Force SELinux mode. For developers.",
+                    "experimental": true,
+                    "save": true,
+                    "options": [
+                        {
+                            "val": "0",
+                            "label": "Default",
+                            "desc": "Use the kernel's default SELinux mode."
+                        },
+                        {
+                            "val": "1",
+                            "label": "Always Enforcing",
+                            "desc": "Force SELinux Enforcing mode at boot."
+                        },
+                        {
+                            "val": "2",
+                            "label": "Always Permissive",
+                            "desc": "Force SELinux Permissive mode at boot."
+                        }
+                    ]
                 }
             ]
         },

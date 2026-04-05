@@ -269,6 +269,9 @@ function renderFeatures(schema, procCmdline) {
     orderedSchema.forEach(item => {
         const hasCurrentVal = Object.prototype.hasOwnProperty.call(currentFeatures, item.key);
         const hasLiveVal = Object.prototype.hasOwnProperty.call(currentLiveFeatures, item.key);
+        const hasExplicitZeroOption = item.type === 'select'
+            && Array.isArray(item.options)
+            && item.options.some(opt => String(opt.val) === '0');
 
         // Skip entirely if experimental and toggle off, UNLESS enabled
         const currentVal = hasCurrentVal
@@ -288,7 +291,10 @@ function renderFeatures(schema, procCmdline) {
         // Default Value Logic for toggle ON
         let defaultVal = '1';
         if (item.type === 'select' && item.options && item.options.length > 0) {
-            defaultVal = item.options[0].val;
+            const preferredDefault = hasExplicitZeroOption
+                ? item.options.find(opt => String(opt.val) !== '0')
+                : item.options[0];
+            defaultVal = preferredDefault ? preferredDefault.val : item.options[0].val;
         }
 
         let liveVal = null;
@@ -335,6 +341,21 @@ function renderFeatures(schema, procCmdline) {
             `;
         }
 
+        // 3. Experimental Warning
+        if (item.experimental) {
+            const bubbleId = `bubble-experimental-${item.key}`;
+            statusIconsHtml += `
+                <div class="status-icon-wrapper" style="position:relative;">
+                    <svg class="status-icon experimental" onclick="toggleBubble('${bubbleId}', event)" viewBox="${warningIcon.viewBox}">
+                        <path fill="currentColor" d="${warningIcon.d}"/>
+                    </svg>
+                    <div id="${bubbleId}" class="status-bubble hidden">
+                        ${t('features.tooltipExperimental')}
+                    </div>
+                </div>
+            `;
+        }
+
         // --- Switch Construction ---
         let headerControl = '';
         // Allow switch for all types, but treat explicit readOnly flag same as type 'info'
@@ -357,10 +378,12 @@ function renderFeatures(schema, procCmdline) {
             // Add "Disabled" option with translated strings
             const disabledLabel = t('features.optionDisabled');
             const disabledDesc = t('features.disabledDesc');
-            const optionsWithDisabled = [
-                { val: '0', label: disabledLabel, desc: disabledDesc, experimental: false, isDisabledOption: true },
-                ...item.options
-            ];
+            const optionsWithDisabled = hasExplicitZeroOption
+                ? [...item.options]
+                : [
+                    { val: '0', label: disabledLabel, desc: disabledDesc, experimental: false, isDisabledOption: true },
+                    ...item.options
+                ];
 
             // Filter options
             const visibleOptions = optionsWithDisabled.filter(opt =>
@@ -393,17 +416,19 @@ function renderFeatures(schema, procCmdline) {
 
         // Current Value Display
         let displayValText = currentVal;
-        if (currentVal === '0') {
+        if (item.type === 'select' && item.options && item.options.length > 0 && hasExplicitZeroOption) {
+            const currentOption = item.options.find(opt => String(opt.val) === currentVal);
+            if (currentOption) {
+                const currentLabel = tf(item.key, 'label', currentVal, currentFamily) || currentOption.label || currentVal;
+                displayValText += ` (${currentLabel})`;
+            }
+        } else if (currentVal === '0') {
             displayValText += ' (' + (t('features.optionDisabled')) + ')';
         }
         const currentValueHtml = `<div class="current-value-display">${t('features.currentLabel')} ${displayValText}</div>`;
 
-        // Feature-level experimental badge
-        const featureExpBadge = item.experimental ? `<span class="experimental-badge" title="${t('features.tooltipExperimental')}"><svg viewBox="${warningIcon.viewBox}" width="18" height="18"><path fill="#F44336" d="${warningIcon.d}"/></svg></span>` : '';
-
         // Render
         el.innerHTML = `
-            ${featureExpBadge}
             <div class="feature-header">
                 <div class="feature-info">
                     <h3 class="feature-title">${tf(item.key, 'title', null, currentFamily) || item.title}</h3>
@@ -529,12 +554,15 @@ async function applyChanges() {
                 if (feature && feature.save) {
                     try {
                         let pRes;
-                        if (val === '0') {
+                        const persistType = feature.persist_type || feature.type;
+                        const shouldPersistZero = feature.persist_zero === true || persistType === 'keyval';
+
+                        if (val === '0' && !shouldPersistZero) {
                             // Disabled: Remove from cache entirely
                             pRes = await exec(`sh /data/adb/modules/floppy_companion/persistence.sh remove "${key}"`);
                         } else {
                             // Enabled: Save to cache
-                            pRes = await exec(`sh /data/adb/modules/floppy_companion/persistence.sh save "${key}" "${val}" "${feature.type}"`);
+                            pRes = await exec(`sh /data/adb/modules/floppy_companion/persistence.sh save "${key}" "${val}" "${persistType}"`);
                         }
                         logToModal(pRes.trim());
                     } catch (pe) {

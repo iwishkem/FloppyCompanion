@@ -43,6 +43,10 @@
         "title": "Desactivar Protección Init",
         "desc": "Permite que los Power HALs y scripts de init modifiquen parámetros del kernel. Activa si quieres que la ROM controle el rendimiento."
     },
+    "init_protection": {
+        "title": "Protección Init",
+        "desc": "Evita que los Power HALs y scripts de init modifiquen parámetros del kernel. Desactívala si quieres que la ROM controle el rendimiento."
+    },
     "legacy_timestamp_source": {
         "title": "Timestamp Legado",
         "desc": "Corrige problemas de duración de grabación de video en ROMs con HALs de cámara antiguas."
@@ -72,5 +76,23 @@
     "mass_storage_hack": {
         "title": "Hack de soporte Mass Storage",
         "desc": "Inyecta el manejo del gadget mass_storage en el script init.exynos2100.usb.rc del vendor para permitir que apps como DriveDroid funcionen."
+    },
+    "selinux_mode": {
+        "title": "Forzar modo SELinux",
+        "desc": "Forzar modo SELinux. Para desarrolladores.",
+        "options": {
+            "0": {
+                "label": "Predeterminado",
+                "desc": "Usa el modo SELinux predeterminado del kernel."
+            },
+            "1": {
+                "label": "Siempre Enforcing",
+                "desc": "Fuerza el modo SELinux Enforcing al arrancar."
+            },
+            "2": {
+                "label": "Siempre Permissive",
+                "desc": "Fuerza el modo SELinux Permissive al arrancar."
+            }
+        }
     }
 }

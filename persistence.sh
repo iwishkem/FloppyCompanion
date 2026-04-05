@@ -8,7 +8,7 @@ CACHE_FILE="/cache/fk_feat"
 ACTION=$1
 KEY=$2
 VALUE=$3
-TYPE=$4 # 'toggle' or 'select'
+TYPE=$4 # 'toggle', 'select', or 'keyval'
 
 if [ ! -f "$CACHE_FILE" ]; then
     touch "$CACHE_FILE"
@@ -33,7 +33,12 @@ case "$ACTION" in
             # Reconstruct file
             echo "$current_content" > "$CACHE_FILE"
             echo "$newline" >> "$CACHE_FILE"
-            
+        elif [ "$TYPE" = "keyval" ]; then
+            current_content=$(echo "$current_content" | grep -v "^${KEY}=" | grep -v "^${KEY}$")
+            newline="${KEY}=${VALUE}"
+
+            echo "$current_content" > "$CACHE_FILE"
+            echo "$newline" >> "$CACHE_FILE"
         else
             # Boolean/Toggle type
             # Remove existing line if present (to avoid duplicates or ensure clean state)
