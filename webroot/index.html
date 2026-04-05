@@ -225,32 +225,32 @@
 
                     <!-- Experimental Toggle (M3 Style Switch) -->
                     <div class="experimental-switch-container">
-                        <label class="m3-switch-label" for="experimental-toggle">
-                            <span class="switch-text"><span data-i18n="features.showExperimental">Show experimental
+                        <div class="m3-switch-label">
+                            <label class="switch-text" for="experimental-toggle"><span data-i18n="features.showExperimental">Show experimental
                                     features</span> <svg viewBox="0 0 24 24" width="14" height="14"
                                     data-icon="warning_triangle" data-icon-fill="#F44336"
-                                    style="vertical-align: middle; margin-left: 4px; position: relative; top: -1px;"></svg></span>
-                            <div class="m3-switch">
-                                <input type="checkbox" id="experimental-toggle">
-                                <span class="m3-switch-track">
-                                    <span class="m3-switch-thumb"></span>
-                                </span>
+                                    style="vertical-align: middle; margin-left: 4px; position: relative; top: -1px;"></svg></label>
+                            <div class="beer switch-scope">
+                                <label class="switch">
+                                    <input type="checkbox" id="experimental-toggle">
+                                    <span></span>
+                                </label>
                             </div>
-                        </label>
+                        </div>
                     </div>
 
                     <!-- Read-Only Patching Toggle -->
                     <div class="experimental-switch-container" id="readonly-patch-container" style="margin-top: 8px;">
-                        <label class="m3-switch-label" for="readonly-patch-toggle">
-                            <span class="switch-text" data-i18n="features.allowReadOnly">Allow patching read-only
-                                features</span>
-                            <div class="m3-switch">
-                                <input type="checkbox" id="readonly-patch-toggle">
-                                <span class="m3-switch-track">
-                                    <span class="m3-switch-thumb"></span>
-                                </span>
+                        <div class="m3-switch-label">
+                            <label class="switch-text" for="readonly-patch-toggle" data-i18n="features.allowReadOnly">Allow patching read-only
+                                features</label>
+                            <div class="beer switch-scope">
+                                <label class="switch">
+                                    <input type="checkbox" id="readonly-patch-toggle">
+                                    <span></span>
+                                </label>
                             </div>
-                        </label>
+                        </div>
                     </div>
                 </div> <!-- End Inner Container -->
             </div>
@@ -362,10 +362,10 @@
                                     <span class="tweak-label" data-i18n="tweaks.undervolt.unlockRange">Unlock Full
                                         Range</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="undervolt-unlock-switch">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>
@@ -462,10 +462,10 @@
                                     </span>
                                     <span class="tweak-val" id="misc-val-blocked3">--</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="misc-blocked3-switch">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>
@@ -496,10 +496,10 @@
                                     </span>
                                     <span class="tweak-val" id="misc-val-gpuclklck">--</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="misc-gpuclklck-switch">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>
@@ -517,10 +517,10 @@
                                     </span>
                                     <span class="tweak-val" id="misc-val-throttlersprotection">--</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="misc-throttlersprotection-switch">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>
@@ -538,10 +538,10 @@
                                     </span>
                                     <span class="tweak-val" id="misc-val-gpuunlock">--</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="misc-gpuunlock-switch">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>
@@ -572,10 +572,10 @@
                                     </span>
                                     <span class="tweak-val" id="misc-trinket-val-touchboost">--</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="misc-trinket-touchboost-switch">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>
@@ -597,10 +597,10 @@
                                     <span class="tweak-label" data-i18n="tweaks.soundcontrol.splitChannels">Split L/R
                                         Channels</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="soundcontrol-split-switch">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>
@@ -710,10 +710,10 @@
                                     </div>
                                     <span class="tweak-val" id="charging-val-bypass">--</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="charging-bypass-switch">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>
@@ -740,10 +740,10 @@
                                     </div>
                                     <span class="tweak-val" id="charging-val-fast">--</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="charging-fast-switch">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>
@@ -862,10 +862,10 @@
                                         <span class="tweak-label" data-i18n="tweaks.adreno.idlerActive">Active</span>
                                         <span class="tweak-val" id="adreno-val-active">--</span>
                                     </div>
-                                    <div class="tweak-switch-container">
-                                        <label class="m3-switch" style="display:inline-block; margin:0;">
+                                    <div class="tweak-switch-container beer switch-scope">
+                                        <label class="switch">
                                             <input type="checkbox" id="adreno-active-switch">
-                                            <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                            <span></span>
                                         </label>
                                     </div>
                                 </div>
@@ -915,9 +915,11 @@
                         <div class="card-content">
                             <div class="tweak-toggle-row">
                                 <span class="toggle-label" data-i18n="tweaks.zram.enable">Enable ZRAM</span>
-                                <div class="m3-switch">
-                                    <input type="checkbox" id="zram-enable-toggle" checked>
-                                    <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                <div class="beer switch-scope">
+                                    <label class="switch">
+                                        <input type="checkbox" id="zram-enable-toggle" checked>
+                                        <span></span>
+                                    </label>
                                 </div>
                             </div>
                             <div id="zram-options" class="tweak-section">
@@ -1105,10 +1107,10 @@
                                     <span class="tweak-label" data-i18n="tweaks.lmkd.usePsi">Use PSI Monitors</span>
                                     <span class="tweak-val" id="lmkd-val-use_psi">--</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="lmkd-toggle-use_psi">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>
@@ -1117,10 +1119,10 @@
                                     <span class="tweak-label" data-i18n="tweaks.lmkd.useMinfreeLevels">Use Minfree Levels</span>
                                     <span class="tweak-val" id="lmkd-val-use_minfree_levels">--</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="lmkd-toggle-use_minfree_levels">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>
@@ -1129,10 +1131,10 @@
                                     <span class="tweak-label" data-i18n="tweaks.lmkd.criticalUpgrade">Critical Upgrade</span>
                                     <span class="tweak-val" id="lmkd-val-critical_upgrade">--</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="lmkd-toggle-critical_upgrade">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>
@@ -1141,10 +1143,10 @@
                                     <span class="tweak-label" data-i18n="tweaks.lmkd.killHeaviestTask">Kill Heaviest Task</span>
                                     <span class="tweak-val" id="lmkd-val-kill_heaviest_task">--</span>
                                 </div>
-                                <div class="tweak-switch-container">
-                                    <label class="m3-switch" style="display:inline-block; margin:0;">
+                                <div class="tweak-switch-container beer switch-scope">
+                                    <label class="switch">
                                         <input type="checkbox" id="lmkd-toggle-kill_heaviest_task">
-                                        <span class="m3-switch-track"><span class="m3-switch-thumb"></span></span>
+                                        <span></span>
                                     </label>
                                 </div>
                             </div>

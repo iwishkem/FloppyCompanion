@@ -1910,6 +1910,37 @@ body {
     font-weight: 500;
 }
 
+.switch-scope {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    flex-shrink: 0;
+}
+
+.switch-scope .switch {
+    margin: 0;
+}
+
+.switch-scope .switch>span {
+    font-size: 0;
+}
+
+.switch-scope.readonly {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.experimental-switch-container .switch-scope {
+    margin-inline-end: 10px;
+}
+
+.tweak-switch-container.switch-scope,
+.tweak-toggle-row>.switch-scope {
+    min-width: 52px;
+    justify-content: flex-end;
+}
+
 .m3-switch {
     position: relative;
     width: 52px;

@@ -363,13 +363,13 @@ function renderFeatures(schema, procCmdline) {
         const isReadOnly = isInfo && !allowReadonlyPatch;
 
         headerControl = `
-            <label class="m3-switch" style="display:inline-block; margin:0; ${isReadOnly ? 'opacity: 0.5; pointer-events: none;' : ''}">
-                <input type="checkbox" id="switch-${item.key}" ${isOn ? 'checked' : ''} ${isReadOnly ? 'disabled' : ''}
-                    onchange="updateFeature('${item.key}', this.checked ? '${defaultVal}' : '0', this)">
-                <span class="m3-switch-track">
-                     <span class="m3-switch-thumb"></span>
-                </span>
-            </label>
+            <span class="beer switch-scope${isReadOnly ? ' readonly' : ''}">
+                <label class="switch">
+                    <input type="checkbox" id="switch-${item.key}" ${isOn ? 'checked' : ''} ${isReadOnly ? 'disabled' : ''}
+                        onchange="updateFeature('${item.key}', this.checked ? '${defaultVal}' : '0', this)">
+                    <span></span>
+                </label>
+            </span>
         `;
 
         let bodyControls = '';
