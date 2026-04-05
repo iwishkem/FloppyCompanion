@@ -177,7 +177,7 @@ async function handleResetTweakCard(card) {
 function buildTweakCardShell(card) {
     const el = document.createElement('div');
     el.id = card.cardId;
-    el.className = 'card tweak-card';
+    el.className = 'card tweak-card surface-container border no-elevate';
 
     const header = document.createElement('div');
     header.className = 'card-header';

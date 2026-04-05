@@ -146,11 +146,16 @@ async function init() {
     // --- Theme Logic ---
     let currentThemeMode = localStorage.getItem('theme_mode') || 'auto';
     const themeBtn = document.getElementById('theme-toggle');
+    const systemDarkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
     function applyTheme(mode) {
-        document.body.classList.remove('theme-light', 'theme-dark');
+        document.body.classList.remove('theme-light', 'theme-dark', 'light', 'dark');
         if (mode === 'light') document.body.classList.add('theme-light');
         if (mode === 'dark') document.body.classList.add('theme-dark');
+        const effectiveMode = mode === 'auto'
+            ? ((systemDarkQuery && systemDarkQuery.matches) ? 'dark' : 'light')
+            : mode;
+        document.body.classList.add(effectiveMode);
         // 'auto' does nothing (uses media query)
 
         updateThemeIcon(mode);
@@ -192,6 +197,11 @@ async function init() {
 
     // Init Theme
     applyTheme(currentThemeMode);
+    if (systemDarkQuery && typeof systemDarkQuery.addEventListener === 'function') {
+        systemDarkQuery.addEventListener('change', () => {
+            if (currentThemeMode === 'auto') applyTheme(currentThemeMode);
+        });
+    }
 
     // --- Reboot Dropdown Logic ---
     const rebootBtn = document.getElementById('reboot-btn');

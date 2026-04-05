@@ -234,6 +234,45 @@ body.theme-detect-anim .nav-item .icon {
         color var(--fc-theme-transition-duration) var(--fc-theme-transition-easing) var(--fc-theme-transition-delay);
 }
 
+/* Bridge the existing MD3 token set into BeerCSS variable names. */
+body {
+    --font: 'Roboto', sans-serif;
+    --primary: var(--md-sys-color-primary);
+    --on-primary: var(--md-sys-color-on-primary);
+    --primary-container: var(--md-sys-color-primary-container);
+    --on-primary-container: var(--md-sys-color-on-primary-container);
+    --secondary: var(--md-sys-color-primary);
+    --on-secondary: var(--md-sys-color-on-primary);
+    --secondary-container: var(--md-sys-color-secondary-container);
+    --on-secondary-container: var(--md-sys-color-on-secondary-container);
+    --tertiary: var(--md-sys-color-primary);
+    --on-tertiary: var(--md-sys-color-on-primary);
+    --tertiary-container: var(--md-sys-color-primary-container);
+    --on-tertiary-container: var(--md-sys-color-on-primary-container);
+    --background: var(--md-sys-color-surface);
+    --on-background: var(--md-sys-color-on-surface);
+    --surface: var(--md-sys-color-surface);
+    --on-surface: var(--md-sys-color-on-surface);
+    --surface-variant: var(--md-sys-color-surface-variant);
+    --on-surface-variant: var(--md-sys-color-on-surface-variant);
+    --outline: var(--md-sys-color-outline);
+    --outline-variant: var(--md-sys-color-outline-variant);
+    --inverse-surface: var(--md-sys-color-inverse-surface);
+    --inverse-on-surface: var(--md-sys-color-inverse-on-surface);
+    --inverse-primary: var(--md-sys-color-primary-container);
+    --surface-container-lowest: var(--md-sys-color-surface);
+    --surface-container-low: var(--md-sys-color-surface);
+    --surface-container: var(--md-sys-color-surface-container);
+    --surface-container-high: var(--md-sys-color-surface-container-high);
+    --surface-container-highest: var(--md-sys-color-surface-container-high);
+    --error: #ba1a1a;
+    --on-error: #ffffff;
+    --error-container: #ffdad6;
+    --on-error-container: #410002;
+    --shadow: rgba(0, 0, 0, 0.24);
+    --scrim: rgba(0, 0, 0, 0.5);
+}
+
 
 /* Feature Cards */
 .feature-card {

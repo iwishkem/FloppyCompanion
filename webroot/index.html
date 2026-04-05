@@ -17,13 +17,14 @@
         }
     </style>
 
+    <link rel="stylesheet" href="vendor/beercss/dist/cdn/beer.scoped.min.css">
     <link rel="stylesheet" href="style.css">
     <!-- Offline Support: Icons are inlined SVGs -->
 </head>
 
 <body>
-    <nav class="top-app-bar">
-        <button class="icon-button" id="exit-btn" aria-label="Exit">
+    <nav class="top-app-bar beer">
+        <button class="icon-button transparent circle" id="exit-btn" aria-label="Exit">
             <!-- arrow_back -->
             <svg class="icon-svg" viewBox="0 0 24 24" data-icon="arrow_back"></svg>
         </button>
@@ -32,7 +33,7 @@
         <div class="header-actions">
             <!-- Language Selector (Home Tab Only) -->
             <div id="lang-dropdown-container" class="dropdown-container" style="opacity: 0; transition: opacity 0.3s;">
-                <button id="lang-btn" class="icon-button" aria-label="Language">
+                <button id="lang-btn" class="icon-button transparent circle" aria-label="Language">
                     <!-- language/globe icon -->
                     <svg class="icon-svg" viewBox="0 0 24 24" data-icon="language"></svg>
                 </button>
@@ -43,7 +44,7 @@
             <!-- Reboot Dropdown (Features Tab Only) -->
             <div id="reboot-dropdown-container" class="dropdown-container"
                 style="opacity: 0; transition: opacity 0.3s;">
-                <button id="reboot-btn" class="icon-button" aria-label="Reboot Options">
+                <button id="reboot-btn" class="icon-button transparent circle" aria-label="Reboot Options">
                     <!-- restart_alt icon -->
                     <svg class="icon-svg" viewBox="0 0 24 24" data-icon="restart_alt"></svg>
                 </button>
@@ -61,7 +62,7 @@
                 </div>
             </div>
             <!-- Theme Toggle (About Tab Only) -->
-            <button id="theme-toggle" class="icon-button" style="opacity: 0; transition: opacity 0.3s;">
+            <button id="theme-toggle" class="icon-button transparent circle" style="opacity: 0; transition: opacity 0.3s;">
                 <!-- Icon will be set by JS -->
                 <svg class="icon-svg" viewBox="0 0 24 24" data-icon="theme_auto"></svg>
             </button>
@@ -269,22 +270,22 @@
                                 <option value="Default" data-i18n="tweaks.presetDefaultName">Default</option>
                             </select>
                         </div>
-                        <div class="preset-actions">
-                            <button class="preset-btn" id="preset-load-btn" title="Load selected preset">
+                        <div class="preset-actions beer">
+                            <button class="preset-btn transparent circle" id="preset-load-btn" title="Load selected preset">
                                 <svg class="icon-svg-small" viewBox="0 0 24 24" data-icon="open_in_new"></svg>
                             </button>
-                            <button class="preset-btn" id="preset-save-btn" title="Save current settings as preset">
+                            <button class="preset-btn transparent circle" id="preset-save-btn" title="Save current settings as preset">
                                 <svg class="icon-svg-small" viewBox="0 0 24 24" data-icon="save"></svg>
                             </button>
-                            <button class="preset-btn" id="preset-import-btn" title="Import preset from file">
+                            <button class="preset-btn transparent circle" id="preset-import-btn" title="Import preset from file">
                                 <svg class="icon-svg-small" viewBox="0 0 24 24" data-icon="import"></svg>
                             </button>
-                            <button class="preset-btn" id="preset-export-btn" title="Export preset to file" disabled>
+                            <button class="preset-btn transparent circle" id="preset-export-btn" title="Export preset to file" disabled>
                                 <svg class="icon-svg-small" viewBox="0 0 24 24" data-icon="export"></svg>
                             </button>
                             <!-- Spacer to push delete button to the right if needed, but flex gap handles it. 
                                  We'll style it specifically in JS or CSS if needed. For now just append. -->
-                            <button class="preset-btn danger" id="preset-delete-btn" title="Delete preset" style="margin-left: auto;" disabled>
+                            <button class="preset-btn transparent circle danger" id="preset-delete-btn" title="Delete preset" style="margin-left: auto;" disabled>
                                 <svg class="icon-svg-small" viewBox="0 0 24 24" data-icon="delete"></svg>
                             </button>
                         </div>
@@ -1557,8 +1558,8 @@
             <div id="confirm-modal-body">
                 <!-- Body content set dynamically -->
             </div>
-            <div class="modal-actions">
-                <button class="btn-text" id="confirm-modal-cancel">Cancel</button>
+            <div class="modal-actions beer">
+                <button class="btn-text transparent" id="confirm-modal-cancel">Cancel</button>
                 <button class="btn-tonal hidden" id="confirm-modal-extra">Extra</button>
                 <button class="btn-filled" id="confirm-modal-confirm">Confirm</button>
             </div>
@@ -1592,27 +1593,27 @@
 
     <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav">
-        <button class="nav-item active" data-tab="tab-status" id="nav-status">
+        <button class="nav-item active transparent" data-tab="tab-status" id="nav-status">
             <!-- home -->
             <svg class="icon-svg icon" viewBox="0 0 24 24" data-icon="home"></svg>
             <span class="label" data-i18n="nav.home">Home</span>
         </button>
-        <button class="nav-item" data-tab="tab-features" id="nav-features">
+        <button class="nav-item transparent" data-tab="tab-features" id="nav-features">
             <!-- extension -->
             <svg class="icon-svg icon" viewBox="0 0 24 24" data-icon="extension"></svg>
             <span class="label" data-i18n="nav.features">Features</span>
         </button>
-        <button class="nav-item" data-tab="tab-tweaks" id="nav-tweaks">
+        <button class="nav-item transparent" data-tab="tab-tweaks" id="nav-tweaks">
             <!-- tune -->
             <svg class="icon-svg icon" viewBox="0 0 24 24" data-icon="tune"></svg>
             <span class="label" data-i18n="nav.tweaks">Tweaks</span>
         </button>
-        <button class="nav-item" data-tab="tab-monitor" id="nav-monitor">
+        <button class="nav-item transparent" data-tab="tab-monitor" id="nav-monitor">
             <!-- monitor_heart -->
             <svg class="icon-svg icon" viewBox="0 -960 960 960" data-icon="monitor_heart"></svg>
             <span class="label" data-i18n="nav.monitor">Monitor</span>
         </button>
-        <button class="nav-item" data-tab="tab-about" id="nav-about">
+        <button class="nav-item transparent" data-tab="tab-about" id="nav-about">
             <!-- info -->
             <svg class="icon-svg icon" viewBox="0 0 24 24" data-icon="info"></svg>
             <span class="label" data-i18n="nav.about">About</span>
