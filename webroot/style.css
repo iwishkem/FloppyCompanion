@@ -118,8 +118,8 @@ body.theme-dark {
     --terminal-text: #00e676;
 }
 
-/* Exynos Blue Theme Overrides (1280) - Works on top of Light/Dark */
-body.theme-exynos-blue {
+/* Exynos 1280 Theme Overrides - Works on top of Light/Dark */
+body.theme-exynos-1280 {
     --md-sys-color-primary: #0d47a1;
     --md-sys-color-primary-rgb: 13, 71, 161;
     --md-sys-color-on-primary: #ffffff;
@@ -137,7 +137,7 @@ body.theme-exynos-blue {
 }
 
 @media (prefers-color-scheme: dark) {
-    body.theme-exynos-blue:not(.theme-light) {
+    body.theme-exynos-1280:not(.theme-light) {
         --md-sys-color-primary: #b6c4ff;
         --md-sys-color-primary-rgb: 182, 196, 255;
         --md-sys-color-on-primary: #00287d;
@@ -155,7 +155,7 @@ body.theme-exynos-blue {
     }
 }
 
-body.theme-dark.theme-exynos-blue {
+body.theme-dark.theme-exynos-1280 {
     --md-sys-color-primary: #b6c4ff;
     --md-sys-color-primary-rgb: 182, 196, 255;
     --md-sys-color-on-primary: #00287d;
@@ -172,7 +172,7 @@ body.theme-dark.theme-exynos-blue {
     --md-sys-color-surface-container-high: #232935;
 }
 
-body.theme-light.theme-exynos-blue {
+body.theme-light.theme-exynos-1280 {
     --md-sys-color-primary: #0d47a1;
     --md-sys-color-primary-rgb: 13, 71, 161;
     --md-sys-color-on-primary: #ffffff;
@@ -187,6 +187,97 @@ body.theme-light.theme-exynos-blue {
     --md-sys-color-surface-container-low: #f7f8ff;
     --md-sys-color-surface-container: #f0f4ff;
     --md-sys-color-surface-container-high: #ffffff;
+}
+
+/* Exynos 2100 Theme Overrides - Works on top of Light/Dark */
+body.theme-exynos-2100 {
+    --md-sys-color-primary: #4f4397;
+    --md-sys-color-primary-rgb: 79, 67, 151;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-primary-container: #e7deff;
+    --md-sys-color-on-primary-container: #1d124f;
+    --md-sys-color-secondary-container: #e7deff;
+    --md-sys-color-on-secondary-container: #1d124f;
+    --md-sys-color-background: #fdf8ff;
+    --md-sys-color-on-background: #1d1a24;
+    --md-sys-color-surface: #faf7ff;
+    --md-sys-color-on-surface: #1d1a24;
+    --md-sys-color-surface-variant: #e7e0ef;
+    --md-sys-color-on-surface-variant: #4b4658;
+    --md-sys-color-outline: #7b7588;
+    --md-sys-color-outline-variant: #cbc4d4;
+    --md-sys-color-surface-container-low: #f6f1fb;
+    --md-sys-color-surface-container: #f1ebf7;
+    --md-sys-color-surface-container-high: #ffffff;
+    --md-sys-color-surface-container-highest: var(--md-sys-color-surface-container-high);
+}
+
+@media (prefers-color-scheme: dark) {
+    body.theme-exynos-2100:not(.theme-light) {
+        --md-sys-color-primary: #cec0ff;
+        --md-sys-color-primary-rgb: 206, 192, 255;
+        --md-sys-color-on-primary: #362776;
+        --md-sys-color-primary-container: #4f4397;
+        --md-sys-color-on-primary-container: #e7deff;
+        --md-sys-color-secondary-container: #4f4397;
+        --md-sys-color-on-secondary-container: #e7deff;
+        --md-sys-color-background: #110f18;
+        --md-sys-color-on-background: #e8e0f0;
+        --md-sys-color-surface: #16131f;
+        --md-sys-color-on-surface: #e8e0f0;
+        --md-sys-color-surface-variant: #4b4658;
+        --md-sys-color-on-surface-variant: #cdc5d8;
+        --md-sys-color-outline: #9690a2;
+        --md-sys-color-outline-variant: #4b4658;
+        --md-sys-color-surface-container-low: #1a1724;
+        --md-sys-color-surface-container: #211c2d;
+        --md-sys-color-surface-container-high: #2a2438;
+        --md-sys-color-surface-container-highest: var(--md-sys-color-surface-container-high);
+    }
+}
+
+body.theme-dark.theme-exynos-2100 {
+    --md-sys-color-primary: #cec0ff;
+    --md-sys-color-primary-rgb: 206, 192, 255;
+    --md-sys-color-on-primary: #362776;
+    --md-sys-color-primary-container: #4f4397;
+    --md-sys-color-on-primary-container: #e7deff;
+    --md-sys-color-secondary-container: #4f4397;
+    --md-sys-color-on-secondary-container: #e7deff;
+    --md-sys-color-background: #110f18;
+    --md-sys-color-on-background: #e8e0f0;
+    --md-sys-color-surface: #16131f;
+    --md-sys-color-on-surface: #e8e0f0;
+    --md-sys-color-surface-variant: #4b4658;
+    --md-sys-color-on-surface-variant: #cdc5d8;
+    --md-sys-color-outline: #9690a2;
+    --md-sys-color-outline-variant: #4b4658;
+    --md-sys-color-surface-container-low: #1a1724;
+    --md-sys-color-surface-container: #211c2d;
+    --md-sys-color-surface-container-high: #2a2438;
+    --md-sys-color-surface-container-highest: var(--md-sys-color-surface-container-high);
+}
+
+body.theme-light.theme-exynos-2100 {
+    --md-sys-color-primary: #4f4397;
+    --md-sys-color-primary-rgb: 79, 67, 151;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-primary-container: #e7deff;
+    --md-sys-color-on-primary-container: #1d124f;
+    --md-sys-color-secondary-container: #e7deff;
+    --md-sys-color-on-secondary-container: #1d124f;
+    --md-sys-color-background: #fdf8ff;
+    --md-sys-color-on-background: #1d1a24;
+    --md-sys-color-surface: #faf7ff;
+    --md-sys-color-on-surface: #1d1a24;
+    --md-sys-color-surface-variant: #e7e0ef;
+    --md-sys-color-on-surface-variant: #4b4658;
+    --md-sys-color-outline: #7b7588;
+    --md-sys-color-outline-variant: #cbc4d4;
+    --md-sys-color-surface-container-low: #f6f1fb;
+    --md-sys-color-surface-container: #f1ebf7;
+    --md-sys-color-surface-container-high: #ffffff;
+    --md-sys-color-surface-container-highest: var(--md-sys-color-surface-container-high);
 }
 
 /* Orange Theme Overrides (Trinket) - Works on top of Light/Dark */

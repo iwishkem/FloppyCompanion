@@ -432,12 +432,18 @@ async function init() {
         setTimeout(() => document.body.classList.remove('theme-detect-anim'), 1700);
     }
 
+    document.body.classList.remove('theme-orange', 'theme-exynos-1280', 'theme-exynos-2100');
+
     if (devInfo.isTrinketMi) {
         requestAnimationFrame(() => document.body.classList.add('theme-orange'));
         swapManagedDeviceName('FloppyTrinketMi', { i18nKey: null });
         window.KERNEL_NAME = 'FloppyTrinketMi';
-    } else if (devInfo.is1280 || devInfo.is2100) {
-        requestAnimationFrame(() => document.body.classList.add('theme-exynos-blue'));
+    } else if (devInfo.is2100) {
+        requestAnimationFrame(() => document.body.classList.add('theme-exynos-2100'));
+        swapManagedDeviceName(devInfo.kernelName || 'FloppyKernel', { i18nKey: null });
+        window.KERNEL_NAME = devInfo.kernelName || 'FloppyKernel';
+    } else if (devInfo.is1280) {
+        requestAnimationFrame(() => document.body.classList.add('theme-exynos-1280'));
         swapManagedDeviceName(devInfo.kernelName || 'FloppyKernel', { i18nKey: null });
         window.KERNEL_NAME = devInfo.kernelName || 'FloppyKernel';
     } else {
