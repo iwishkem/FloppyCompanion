@@ -19,6 +19,8 @@ let currentPresetName = 'Default';
 let currentPresetBuiltIn = true;
 let availablePresets = []; // List of { name, builtIn, path }
 let defaultPresetData = null; // Captured from kernel
+let defaultPresetLoadPromise = null;
+let presetsInitPromise = null;
 
 // =============================================================================
 // PRESET DATA MANAGEMENT
@@ -51,15 +53,24 @@ async function loadAvailablePresets() {
 
 // Load Default preset (kernel defaults captured at boot)
 async function loadDefaultPreset() {
-    const defaultPath = '/data/adb/floppy_companion/presets/.defaults.json';
-    const content = await exec(`cat "${defaultPath}" 2>/dev/null || echo "{}"`);
+    if (defaultPresetData) return defaultPresetData;
+    if (defaultPresetLoadPromise) return defaultPresetLoadPromise;
 
-    try {
-        defaultPresetData = JSON.parse(content);
-    } catch (e) {
-        console.error('Failed to parse defaults:', e);
-        defaultPresetData = { tweaks: {} };
-    }
+    defaultPresetLoadPromise = (async () => {
+        const defaultPath = '/data/adb/floppy_companion/presets/.defaults.json';
+        const content = await exec(`cat "${defaultPath}" 2>/dev/null || echo "{}"`);
+
+        try {
+            defaultPresetData = JSON.parse(content);
+        } catch (e) {
+            console.error('Failed to parse defaults:', e);
+            defaultPresetData = { tweaks: {} };
+        }
+
+        return defaultPresetData;
+    })();
+
+    return defaultPresetLoadPromise;
 }
 
 async function clearAllTweakConfigs() {
@@ -507,6 +518,9 @@ function renderPresetSelector() {
 // =============================================================================
 
 async function initPresets() {
+    if (presetsInitPromise) return presetsInitPromise;
+
+    presetsInitPromise = (async () => {
     // Load default preset data
     await loadDefaultPreset();
 
@@ -540,6 +554,9 @@ async function initPresets() {
 
     // Re-render preset selector when language changes
     document.addEventListener('languageChanged', renderPresetSelector);
+    })();
+
+    return presetsInitPromise;
 }
 
 // Make functions available globally
@@ -550,3 +567,4 @@ window.initPresets = initPresets;
 window.collectAllTweakStates = collectAllTweakStates;
 window.loadPresetToUI = loadPresetToUI;
 window.getDefaultPreset = () => defaultPresetData;
+window.loadDefaultPreset = loadDefaultPreset;

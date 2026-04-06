@@ -5,6 +5,7 @@
 MODDIR="${0%/*}/.."
 DATA_DIR="/data/adb/floppy_companion"
 OUTPUT_FILE="$DATA_DIR/presets/.defaults.json"
+DEFAULT_OVERRIDES_FILE="$MODDIR/tweaks/default_overrides.sh"
 
 # Detect kernel family (best-effort, aligned with WebUI logic)
 KERN_VER=$(uname -r 2>/dev/null || echo "")
@@ -52,49 +53,11 @@ fi
 # Create presets directory
 mkdir -p "$DATA_DIR/presets"
 
-sanitize_int() {
-    value="$1"
-    fallback="$2"
-
-    if echo "$value" | grep -Eq '^-?[0-9]+$'; then
-        echo "$value"
-    else
-        echo "$fallback"
-    fi
+apply_predefined_tweak_defaults() {
+    return 1
 }
 
-capture_soundcontrol_defaults() {
-    sc_attempt=0
-    sc_zero_stable_count=0
-
-    # On FloppyTrinketMi the sound control nodes can expose a transient boot
-    # value before settling to the steady-state default. Wait for the settled
-    # 0 dB state instead of snapshotting the transient value.
-    while [ "$sc_attempt" -lt 30 ]; do
-        sc_hp_raw=$(cat /sys/kernel/sound_control/headphone_gain 2>/dev/null | tr -d '\r')
-        sc_mic_raw=$(cat /sys/kernel/sound_control/mic_gain 2>/dev/null | tr -d '\r\n')
-        sc_raw_hp_l=$(sanitize_int "$(echo "$sc_hp_raw" | awk '{print $1}')" "0")
-        sc_raw_hp_r=$(sanitize_int "$(echo "$sc_hp_raw" | awk '{print $2}')" "0")
-        sc_raw_mic=$(sanitize_int "$sc_mic_raw" "0")
-
-        SOUND_HP_L="$sc_raw_hp_l"
-        SOUND_HP_R="$sc_raw_hp_r"
-        SOUND_MIC="$sc_raw_mic"
-
-        if [ "$SOUND_HP_L,$SOUND_HP_R,$SOUND_MIC" = "0,0,0" ]; then
-            sc_zero_stable_count=$((sc_zero_stable_count + 1))
-        else
-            sc_zero_stable_count=0
-        fi
-
-        if [ "$sc_zero_stable_count" -ge 2 ]; then
-            break
-        fi
-
-        sc_attempt=$((sc_attempt + 1))
-        sleep 1
-    done
-}
+[ -f "$DEFAULT_OVERRIDES_FILE" ] && . "$DEFAULT_OVERRIDES_FILE"
 
 # --- ZRAM Defaults ---
 ZRAM_DEV=""
@@ -130,7 +93,15 @@ SOUND_HP_R="0"
 SOUND_MIC="0"
 
 if [ "$IS_TRINKET" = "1" ]; then
-    capture_soundcontrol_defaults
+    if ! apply_predefined_tweak_defaults soundcontrol; then
+        SOUND_HP=$(cat /sys/kernel/sound_control/headphone_gain 2>/dev/null || echo "0 0")
+        SOUND_HP_L=$(echo "$SOUND_HP" | awk '{print $1}')
+        SOUND_HP_R=$(echo "$SOUND_HP" | awk '{print $2}')
+        SOUND_MIC=$(cat /sys/kernel/sound_control/mic_gain 2>/dev/null || echo "0")
+        [ -z "$SOUND_HP_L" ] && SOUND_HP_L="0"
+        [ -z "$SOUND_HP_R" ] && SOUND_HP_R="0"
+        [ -z "$SOUND_MIC" ] && SOUND_MIC="0"
+    fi
 fi
 
 # --- Output JSON ---

@@ -93,17 +93,15 @@ async function loadSoundControlState() {
 
     const { reference, hasSaved } = window.resolveTweakReference(scCurrentState, scSavedState, scDefaultState);
 
-    // This card controls live mixer state, so when there is no explicit saved
-    // override we should stage the current kernel values, not a captured
-    // baseline snapshot from boot.
     if (hasSaved) {
         scPendingState = normalizeSoundControlState(
             window.initPendingState(scCurrentState, scSavedState, scDefaultState)
         );
         scReferenceState = normalizeSoundControlState(reference);
     } else {
-        scPendingState = normalizeSoundControlState(scCurrentState);
-        scReferenceState = normalizeSoundControlState(scCurrentState);
+        const baseState = Object.keys(scDefaultState).length > 0 ? scDefaultState : scCurrentState;
+        scPendingState = normalizeSoundControlState(baseState);
+        scReferenceState = normalizeSoundControlState(baseState);
     }
 
     // Check if L and R are different - if so, enable split mode
@@ -122,8 +120,9 @@ async function saveSoundControl() {
     if (Object.keys(sparseState).length === 0) {
         await runSoundControlBackend('clear_saved');
         scSavedState = {};
-        scReferenceState = normalizeSoundControlState(scCurrentState);
-        scPendingState = normalizeSoundControlState(scCurrentState);
+        const baseState = Object.keys(scDefaultState).length > 0 ? scDefaultState : scCurrentState;
+        scReferenceState = normalizeSoundControlState(baseState);
+        scPendingState = normalizeSoundControlState(baseState);
         renderSoundControlCard();
     } else {
         await runSoundControlBackend('save', ...Object.entries(sparseState).map(([key, value]) => `${key}=${value}`));

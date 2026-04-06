@@ -741,7 +741,11 @@ async function initTweaksTab() {
 
 // Initialize platform tweaks
 function initPlatformTweaks() {
-    const doInit = () => {
+    const doInit = async () => {
+        if (typeof window.initPresets === 'function') {
+            await window.initPresets();
+        }
+
         setTweakVar('kernelName', window.KERNEL_NAME || '');
         if (window.__tweaksSchema) refreshTweaksAvailability(window.__tweaksSchema);
 
@@ -760,14 +764,13 @@ function initPlatformTweaks() {
     // Ensure schema is loaded/rendered even if platform init runs before tweaks tab init.
     if (!window.__tweaksSchemaRendered) {
         return initTweaksSchemaUI().then(() => {
-            doInit();
+            return doInit();
         }).catch(() => {
-            doInit();
+            return doInit();
         });
     }
 
-    doInit();
-    return Promise.resolve();
+    return doInit();
 }
 
 // Export globally
