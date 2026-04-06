@@ -23,6 +23,16 @@ function getUniqueCallbackName(prefix) {
 
 // Global exec function
 window.exec = async function (command) {
+    if (window.__FC_SIM_ACTIVE && typeof window.__FC_SIM_EXEC === 'function') {
+        try {
+            const output = await window.__FC_SIM_EXEC(command);
+            return output ? String(output).trim() : '';
+        } catch (e) {
+            console.error('Simulator exec error', e);
+            return null;
+        }
+    }
+
     if (typeof ksu === 'undefined') {
         console.error("ksu object is undefined");
         return null;
