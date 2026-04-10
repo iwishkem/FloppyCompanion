@@ -37,6 +37,15 @@ function buildUndervoltEffectiveState(source = undervoltPendingState) {
     return state;
 }
 
+function getNormalizedUndervoltPendingState() {
+    return window.resolveBlankTweakFields(undervoltPendingState, {
+        little: { id: 'undervolt-input-little', fallback: '0' },
+        big: { id: 'undervolt-input-big', fallback: '0' },
+        prime: { id: 'undervolt-input-prime', fallback: '0' },
+        gpu: { id: 'undervolt-input-gpu', fallback: '0' }
+    }, undervoltCurrentState, undervoltDefaultState);
+}
+
 function ensureUndervoltUnlockedIfNeeded() {
     const unlockSwitch = document.getElementById('undervolt-unlock-switch');
     if (!unlockSwitch) return;
@@ -230,7 +239,7 @@ function updateUndervoltPendingIndicator() {
 }
 
 async function saveUndervolt() {
-    const effectiveState = buildUndervoltEffectiveState();
+    const effectiveState = buildUndervoltEffectiveState(getNormalizedUndervoltPendingState());
     const sparseState = window.buildSparseStateAgainstDefaults(effectiveState, undervoltDefaultState);
     await runUndervoltBackend('save', ...Object.entries(sparseState).map(([key, value]) => `${key}=${value}`));
     undervoltSavedState = { ...sparseState };
@@ -243,7 +252,7 @@ async function saveUndervolt() {
 }
 
 async function applyUndervolt() {
-    const { little, big, prime, gpu } = undervoltPendingState;
+    const { little, big, prime, gpu } = buildUndervoltEffectiveState(getNormalizedUndervoltPendingState());
     await runUndervoltBackend('apply', little, big, prime, gpu);
 
     // Refresh current
@@ -270,7 +279,7 @@ function initUndervoltTweak() {
     // Register tweak immediately (Early Registration)
     if (typeof window.registerTweak === 'function') {
         window.registerTweak('undervolt', {
-            getState: () => ({ ...undervoltPendingState }),
+            getState: () => getNormalizedUndervoltPendingState(),
             setState: (config) => {
                 const baseline = normalizeUndervoltState({ ...undervoltCurrentState, ...undervoltDefaultState });
                 undervoltPendingState = normalizeUndervoltState({ ...baseline, ...(config || {}) });

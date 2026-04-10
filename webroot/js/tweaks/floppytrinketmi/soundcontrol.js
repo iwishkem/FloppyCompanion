@@ -17,6 +17,35 @@ function normalizeSoundControlState(state = {}) {
     };
 }
 
+function getNormalizedSoundControlPendingState() {
+    const normalizedState = { ...scPendingState };
+
+    const inputMic = document.getElementById('soundcontrol-input-mic');
+    if (inputMic && String(inputMic.value ?? '').trim() === '') {
+        normalizedState.mic = window.getTweakDefaultValue('mic', scCurrentState, scDefaultState, '0');
+    }
+
+    if (scSplitMode) {
+        const inputHpL = document.getElementById('soundcontrol-input-hp-l');
+        const inputHpR = document.getElementById('soundcontrol-input-hp-r');
+
+        if (inputHpL && String(inputHpL.value ?? '').trim() === '') {
+            normalizedState.hp_l = window.getTweakDefaultValue('hp_l', scCurrentState, scDefaultState, '0');
+        }
+        if (inputHpR && String(inputHpR.value ?? '').trim() === '') {
+            normalizedState.hp_r = window.getTweakDefaultValue('hp_r', scCurrentState, scDefaultState, '0');
+        }
+    } else {
+        const inputHp = document.getElementById('soundcontrol-input-hp');
+        if (inputHp && String(inputHp.value ?? '').trim() === '') {
+            normalizedState.hp_l = window.getTweakDefaultValue('hp_l', scCurrentState, scDefaultState, '0');
+            normalizedState.hp_r = window.getTweakDefaultValue('hp_r', scCurrentState, scDefaultState, '0');
+        }
+    }
+
+    return normalizeSoundControlState(normalizedState);
+}
+
 function renderSoundControlCard() {
     // Update value labels from current state
     const valHp = document.getElementById('soundcontrol-val-hp');
@@ -116,7 +145,7 @@ async function loadSoundControlState() {
 window.loadSoundControlState = loadSoundControlState;
 
 async function saveSoundControl() {
-    const sparseState = window.buildSparseStateAgainstDefaults(scPendingState, scDefaultState);
+    const sparseState = window.buildSparseStateAgainstDefaults(getNormalizedSoundControlPendingState(), scDefaultState);
     if (Object.keys(sparseState).length === 0) {
         await runSoundControlBackend('clear_saved');
         scSavedState = {};
@@ -137,7 +166,8 @@ async function saveSoundControl() {
 }
 
 async function applySoundControl() {
-    await runSoundControlBackend('apply', scPendingState.hp_l, scPendingState.hp_r, scPendingState.mic);
+    const normalizedPendingState = getNormalizedSoundControlPendingState();
+    await runSoundControlBackend('apply', normalizedPendingState.hp_l, normalizedPendingState.hp_r, normalizedPendingState.mic);
 
     // Refresh only current kernel state so active values update,
     // but do NOT reset pending state back to saved.
@@ -186,7 +216,7 @@ function initSoundControlTweak() {
     // Register tweak immediately (Early Registration)
     if (typeof window.registerTweak === 'function') {
         window.registerTweak('soundcontrol', {
-            getState: () => ({ ...scPendingState }),
+            getState: () => getNormalizedSoundControlPendingState(),
             setState: (config) => {
                 scPendingState = { ...scPendingState, ...config };
                 // Handle split mode logic during restore

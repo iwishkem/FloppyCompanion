@@ -198,7 +198,18 @@ async function toggleZramEnabled(enabled) {
 
 // Save ZRAM config
 async function saveZram() {
-    const sparseState = window.buildSparseStateAgainstDefaults(zramPendingState, zramDefaultState);
+    const customInputRow = document.getElementById('zram-custom-input-row');
+    let normalizedPendingState = { ...zramPendingState };
+    if (customInputRow && !customInputRow.classList.contains('hidden')) {
+        normalizedPendingState = window.resolveBlankTweakFields(
+            zramPendingState,
+            { disksize: { id: 'zram-custom-size', fallback: '0' } },
+            zramCurrentState,
+            zramDefaultState
+        );
+    }
+
+    const sparseState = window.buildSparseStateAgainstDefaults(normalizedPendingState, zramDefaultState);
     const result = await runZramBackend('save', ...Object.entries(sparseState).map(([key, value]) => `${key}=${value}`));
 
     if (result && result.includes('saved')) {
@@ -286,7 +297,18 @@ function initZramTweak() {
     // Register with TWEAK_REGISTRY for preset system
     if (typeof window.registerTweak === 'function') {
         window.registerTweak('zram', {
-            getState: () => ({ ...zramPendingState }),
+            getState: () => {
+                const customInputRow = document.getElementById('zram-custom-input-row');
+                if (customInputRow && !customInputRow.classList.contains('hidden')) {
+                    return window.resolveBlankTweakFields(
+                        zramPendingState,
+                        { disksize: { id: 'zram-custom-size', fallback: '0' } },
+                        zramCurrentState,
+                        zramDefaultState
+                    );
+                }
+                return { ...zramPendingState };
+            },
             setState: (config) => {
                 zramPendingState = { ...zramPendingState, ...config };
                 renderZramCard();

@@ -263,12 +263,30 @@ function setLmkdNumber(key, value) {
 }
 
 function buildLmkdArgs() {
-    return LMKD_ALL_KEYS.map((key) => `${key}=${getLmkdResolvedValue(key)}`);
+    const normalizedPendingState = window.resolveBlankTweakFields(
+        lmkdPendingState,
+        Object.fromEntries(LMKD_NUMERIC_KEYS.map((key) => [key, { id: `lmkd-${key}`, fallback: getLmkdFallbackValue(key) }])),
+        lmkdCurrentState,
+        lmkdDefaultState
+    );
+
+    return LMKD_ALL_KEYS.map((key) => `${key}=${String(
+        normalizedPendingState[key]
+        ?? lmkdReferenceState[key]
+        ?? lmkdDefaultState[key]
+        ?? getLmkdFallbackValue(key)
+    )}`);
 }
 
 async function saveLmkd() {
-    const sparseState = buildLmkdSparseState(lmkdPendingState);
-    const args = buildLmkdOverrideArgs(lmkdPendingState);
+    const normalizedPendingState = window.resolveBlankTweakFields(
+        lmkdPendingState,
+        Object.fromEntries(LMKD_NUMERIC_KEYS.map((key) => [key, { id: `lmkd-${key}`, fallback: getLmkdFallbackValue(key) }])),
+        lmkdCurrentState,
+        lmkdDefaultState
+    );
+    const sparseState = buildLmkdSparseState(normalizedPendingState);
+    const args = buildLmkdOverrideArgs(normalizedPendingState);
     const result = await runLmkdBackend('save', ...args);
 
     if (result && result.includes('Saved')) {
@@ -283,6 +301,13 @@ async function saveLmkd() {
 }
 
 async function applyLmkd() {
+    const normalizedPendingState = window.resolveBlankTweakFields(
+        lmkdPendingState,
+        Object.fromEntries(LMKD_NUMERIC_KEYS.map((key) => [key, { id: `lmkd-${key}`, fallback: getLmkdFallbackValue(key) }])),
+        lmkdCurrentState,
+        lmkdDefaultState
+    );
+
     if (getLmkdResolvedValue('use_minfree_levels') === '1' && !isLmkdLegacyMinfreeSupported()) {
         showToast(getLmkdConstraintMessage('use_minfree_levels'), true);
         renderLmkdCard();
@@ -294,7 +319,7 @@ async function applyLmkd() {
         return;
     }
 
-    const result = await runLmkdBackend('apply', ...buildLmkdOverrideArgs(lmkdPendingState));
+    const result = await runLmkdBackend('apply', ...buildLmkdOverrideArgs(normalizedPendingState));
 
     if (result && result.includes('Applied')) {
         showToast('LMKD settings applied');
@@ -327,7 +352,12 @@ function initLmkdTweak() {
 
     if (typeof window.registerTweak === 'function') {
         window.registerTweak('lmkd', {
-            getState: () => ({ ...lmkdPendingState }),
+            getState: () => window.resolveBlankTweakFields(
+                lmkdPendingState,
+                Object.fromEntries(LMKD_NUMERIC_KEYS.map((key) => [key, { id: `lmkd-${key}`, fallback: getLmkdFallbackValue(key) }])),
+                lmkdCurrentState,
+                lmkdDefaultState
+            ),
             setState: (config) => {
                 lmkdPendingState = {
                     ...lmkdPendingState,

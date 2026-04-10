@@ -10,17 +10,30 @@ let memoryDefaultState = {};
 const runMemoryBackend = (...args) => window.runTweakBackend('memory', ...args);
 
 function buildMemoryEffectiveState() {
+    const normalizedPendingState = window.resolveBlankTweakFields(memoryPendingState, {
+        swappiness: 'mem-swappiness',
+        dirty_ratio: 'mem-dirty_ratio',
+        dirty_bytes: 'mem-dirty_bytes',
+        dirty_background_ratio: 'mem-dirty_background_ratio',
+        dirty_background_bytes: 'mem-dirty_background_bytes',
+        dirty_writeback_centisecs: 'mem-dirty_writeback_centisecs',
+        dirty_expire_centisecs: 'mem-dirty_expire_centisecs',
+        stat_interval: 'mem-stat_interval',
+        vfs_cache_pressure: 'mem-vfs_cache_pressure',
+        watermark_scale_factor: 'mem-watermark_scale_factor'
+    }, memoryCurrentState, memoryDefaultState);
+
     const state = {
-        swappiness: window.getTweakPendingValue('swappiness', memoryPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
-        dirty_ratio: window.getTweakPendingValue('dirty_ratio', memoryPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
-        dirty_bytes: window.getTweakPendingValue('dirty_bytes', memoryPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
-        dirty_background_ratio: window.getTweakPendingValue('dirty_background_ratio', memoryPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
-        dirty_background_bytes: window.getTweakPendingValue('dirty_background_bytes', memoryPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
-        dirty_writeback_centisecs: window.getTweakPendingValue('dirty_writeback_centisecs', memoryPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
-        dirty_expire_centisecs: window.getTweakPendingValue('dirty_expire_centisecs', memoryPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
-        stat_interval: window.getTweakPendingValue('stat_interval', memoryPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
-        vfs_cache_pressure: window.getTweakPendingValue('vfs_cache_pressure', memoryPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
-        watermark_scale_factor: window.getTweakPendingValue('watermark_scale_factor', memoryPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState)
+        swappiness: window.getTweakPendingValue('swappiness', normalizedPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
+        dirty_ratio: window.getTweakPendingValue('dirty_ratio', normalizedPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
+        dirty_bytes: window.getTweakPendingValue('dirty_bytes', normalizedPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
+        dirty_background_ratio: window.getTweakPendingValue('dirty_background_ratio', normalizedPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
+        dirty_background_bytes: window.getTweakPendingValue('dirty_background_bytes', normalizedPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
+        dirty_writeback_centisecs: window.getTweakPendingValue('dirty_writeback_centisecs', normalizedPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
+        dirty_expire_centisecs: window.getTweakPendingValue('dirty_expire_centisecs', normalizedPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
+        stat_interval: window.getTweakPendingValue('stat_interval', normalizedPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
+        vfs_cache_pressure: window.getTweakPendingValue('vfs_cache_pressure', normalizedPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState),
+        watermark_scale_factor: window.getTweakPendingValue('watermark_scale_factor', normalizedPendingState, memoryReferenceState, memoryDefaultState, memoryCurrentState)
     };
 
     // Keep ratio/bytes mutually exclusive in the persisted/applied state.
@@ -243,7 +256,7 @@ function initMemoryTweak() {
     // Register
     if (typeof window.registerTweak === 'function') {
         window.registerTweak('memory', {
-            getState: () => ({ ...memoryPendingState }),
+            getState: () => buildMemoryEffectiveState(),
             setState: (config) => {
                 memoryPendingState = { ...memoryPendingState, ...config };
                 // Update mode based on config

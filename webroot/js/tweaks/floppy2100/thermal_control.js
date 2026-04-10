@@ -114,6 +114,44 @@ function isThermalControlPerformanceActive(state = thermalControlPendingState) {
     return String(state.performance_mode) === '1';
 }
 
+function getNormalizedThermalControlPendingState() {
+    const performanceSwitch = document.getElementById('thermal-control-performance-switch');
+    const performanceMode = performanceSwitch ? (performanceSwitch.checked ? '1' : '0') : thermalControlPendingState.performance_mode;
+
+    return normalizeThermalControlUiState(
+        window.resolveBlankTweakFields(
+            {
+                ...thermalControlPendingState,
+                performance_mode: performanceMode
+            },
+            {
+                little: {
+                    id: 'thermal-control-input-little',
+                    emptyValues: ['', '-'],
+                    serialize: (value) => clampThermalControlValue(value)
+                },
+                big: {
+                    id: 'thermal-control-input-big',
+                    emptyValues: ['', '-'],
+                    serialize: (value) => clampThermalControlValue(value)
+                },
+                prime: {
+                    id: 'thermal-control-input-prime',
+                    emptyValues: ['', '-'],
+                    serialize: (value) => clampThermalControlValue(value)
+                },
+                g3d: {
+                    id: 'thermal-control-input-g3d',
+                    emptyValues: ['', '-'],
+                    serialize: (value) => clampThermalControlValue(value)
+                }
+            },
+            thermalControlCurrentState,
+            thermalControlUiDefaults
+        )
+    );
+}
+
 function updateThermalControlSliderTicks(slider) {
     if (!slider) return;
 
@@ -300,11 +338,12 @@ async function loadThermalControlState() {
 window.loadThermalControlState = loadThermalControlState;
 
 async function saveThermalControl() {
-    const effectiveState = isThermalControlPerformanceActive()
+    const normalizedPendingState = getNormalizedThermalControlPendingState();
+    const effectiveState = isThermalControlPerformanceActive(normalizedPendingState)
         ? { performance_mode: '1' }
         : {
             performance_mode: '0',
-            ...getThermalControlManualState(thermalControlPendingState)
+            ...getThermalControlManualState(normalizedPendingState)
         };
     const sparseState = window.buildSparseStateAgainstDefaults(effectiveState, thermalControlUiDefaults);
 
@@ -329,13 +368,14 @@ async function saveThermalControl() {
 }
 
 async function applyThermalControl() {
-    const performanceModeActive = isThermalControlPerformanceActive();
+    const normalizedPendingState = getNormalizedThermalControlPendingState();
+    const performanceModeActive = isThermalControlPerformanceActive(normalizedPendingState);
     await runThermalControlBackend(
         'apply',
-        performanceModeActive ? '0' : thermalControlPendingState.little,
-        performanceModeActive ? '0' : thermalControlPendingState.big,
-        performanceModeActive ? '0' : thermalControlPendingState.prime,
-        performanceModeActive ? '0' : thermalControlPendingState.g3d
+        performanceModeActive ? '0' : normalizedPendingState.little,
+        performanceModeActive ? '0' : normalizedPendingState.big,
+        performanceModeActive ? '0' : normalizedPendingState.prime,
+        performanceModeActive ? '0' : normalizedPendingState.g3d
     );
 
     const currentOutput = await runThermalControlBackend('get_current');
@@ -363,7 +403,9 @@ function bindThermalControlInput(key) {
             setThermalControlPendingValue(key, value);
         });
         input.addEventListener('change', (event) => {
-            const value = event.target.value === '' || event.target.value === '-' ? thermalControlReferenceState[key] : event.target.value;
+            const value = event.target.value === '' || event.target.value === '-'
+                ? window.getTweakDefaultValue(key, thermalControlCurrentState, thermalControlUiDefaults)
+                : event.target.value;
             setThermalControlPendingValue(key, value);
         });
     }
@@ -372,7 +414,7 @@ function bindThermalControlInput(key) {
 function initThermalControlTweak() {
     if (typeof window.registerTweak === 'function') {
         window.registerTweak('thermal_control', {
-            getState: () => ({ ...thermalControlPendingState }),
+            getState: () => getNormalizedThermalControlPendingState(),
             setState: (config) => {
                 thermalControlPendingState = normalizeThermalControlUiState({
                     ...thermalControlReferenceState,

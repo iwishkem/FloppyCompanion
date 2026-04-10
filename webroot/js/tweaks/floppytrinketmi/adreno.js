@@ -167,7 +167,12 @@ async function loadAdrenoState() {
 window.loadAdrenoState = loadAdrenoState;
 
 async function saveAdreno() {
-    const sparseState = window.buildSparseStateAgainstDefaults(adrenoPendingState, adrenoDefaultState);
+    const normalizedPendingState = window.resolveBlankTweakFields(adrenoPendingState, {
+        idler_downdifferential: { id: 'adreno-downdifferential', fallback: '20' },
+        idler_idlewait: { id: 'adreno-idlewait', fallback: '15' },
+        idler_idleworkload: { id: 'adreno-idleworkload', fallback: '5000' }
+    }, adrenoCurrentState, adrenoDefaultState);
+    const sparseState = window.buildSparseStateAgainstDefaults(normalizedPendingState, adrenoDefaultState);
     await runAdrenoBackend('save', ...Object.entries(sparseState).map(([key, value]) => `${key}=${value}`));
     adrenoSavedState = { ...sparseState };
     adrenoReferenceState = window.initPendingState(adrenoCurrentState, adrenoSavedState, adrenoDefaultState);
@@ -177,12 +182,17 @@ async function saveAdreno() {
 }
 
 async function applyAdreno() {
+    const normalizedPendingState = window.resolveBlankTweakFields(adrenoPendingState, {
+        idler_downdifferential: { id: 'adreno-downdifferential', fallback: '20' },
+        idler_idlewait: { id: 'adreno-idlewait', fallback: '15' },
+        idler_idleworkload: { id: 'adreno-idleworkload', fallback: '5000' }
+    }, adrenoCurrentState, adrenoDefaultState);
     await runAdrenoBackend('apply',
-        adrenoPendingState.adrenoboost,
-        adrenoPendingState.idler_active,
-        adrenoPendingState.idler_downdifferential,
-        adrenoPendingState.idler_idlewait,
-        adrenoPendingState.idler_idleworkload
+        normalizedPendingState.adrenoboost,
+        normalizedPendingState.idler_active,
+        normalizedPendingState.idler_downdifferential,
+        normalizedPendingState.idler_idlewait,
+        normalizedPendingState.idler_idleworkload
     );
 
     const currentOutput = await runAdrenoBackend('get_current');
@@ -216,7 +226,11 @@ function initAdrenoTweak() {
     // Register tweak immediately (Early Registration)
     if (typeof window.registerTweak === 'function') {
         window.registerTweak('adreno', {
-            getState: () => ({ ...adrenoPendingState }),
+            getState: () => window.resolveBlankTweakFields(adrenoPendingState, {
+                idler_downdifferential: { id: 'adreno-downdifferential', fallback: '20' },
+                idler_idlewait: { id: 'adreno-idlewait', fallback: '15' },
+                idler_idleworkload: { id: 'adreno-idleworkload', fallback: '5000' }
+            }, adrenoCurrentState, adrenoDefaultState),
             setState: (config) => {
                 adrenoPendingState = { ...adrenoPendingState, ...config };
                 renderAdrenoCard();

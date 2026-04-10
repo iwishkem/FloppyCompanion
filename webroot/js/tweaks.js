@@ -683,6 +683,44 @@ window.getTweakTextInputState = function (key, pending = {}, saved = {}, referen
     return { placeholder, value };
 };
 
+window.resolveBlankTweakFields = function (sourceState = {}, fieldConfig = {}, current = {}, defaults = {}) {
+    const resolvedState = { ...sourceState };
+
+    Object.entries(fieldConfig || {}).forEach(([key, rawConfig]) => {
+        const config = typeof rawConfig === 'string' ? { id: rawConfig } : (rawConfig || {});
+        if (!config.id) return;
+
+        const input = document.getElementById(config.id);
+        if (!input) return;
+
+        const rawValue = String(input.value ?? '');
+        const trimmedValue = rawValue.trim();
+        const emptyValues = Array.isArray(config.emptyValues) ? config.emptyValues : [''];
+        const isEmpty = emptyValues.some((emptyValue) => rawValue === emptyValue || trimmedValue === emptyValue);
+
+        if (isEmpty) {
+            resolvedState[key] = window.getTweakDefaultValue(
+                key,
+                current,
+                defaults,
+                Object.prototype.hasOwnProperty.call(config, 'fallback') ? config.fallback : ''
+            );
+            return;
+        }
+
+        if (typeof config.serialize === 'function') {
+            resolvedState[key] = String(config.serialize(rawValue, resolvedState[key]));
+            return;
+        }
+
+        if (!Object.prototype.hasOwnProperty.call(resolvedState, key) || resolvedState[key] === '') {
+            resolvedState[key] = rawValue;
+        }
+    });
+
+    return resolvedState;
+};
+
 window.setPendingIndicator = function (indicatorId, hasPending) {
     const indicator = document.getElementById(indicatorId);
     if (!indicator) return;

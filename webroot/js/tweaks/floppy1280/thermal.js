@@ -156,7 +156,13 @@ function selectThermalMode(mode) {
 // Save thermal config
 async function saveThermal() {
     const mode = thermalPendingState.mode;
-    const customFreq = thermalPendingState.custom_freq || '';
+    const normalizedPendingState = window.resolveBlankTweakFields(
+        thermalPendingState,
+        { custom_freq: 'thermal-custom_freq' },
+        thermalCurrentState,
+        thermalDefaultState
+    );
+    const customFreq = normalizedPendingState.custom_freq || '';
     const sparseState = window.buildSparseStateAgainstDefaults({ mode, custom_freq: customFreq }, thermalDefaultState);
     await runThermalBackend('save', ...Object.entries(sparseState).map(([key, value]) => `${key}=${value}`));
 
@@ -172,7 +178,13 @@ async function saveThermal() {
 // Apply thermal config
 async function applyThermal() {
     const mode = thermalPendingState.mode;
-    const customFreq = thermalPendingState.custom_freq || '';
+    const normalizedPendingState = window.resolveBlankTweakFields(
+        thermalPendingState,
+        { custom_freq: 'thermal-custom_freq' },
+        thermalCurrentState,
+        thermalDefaultState
+    );
+    const customFreq = normalizedPendingState.custom_freq || '';
 
     try {
         await runThermalBackend('apply', mode, customFreq);
@@ -234,7 +246,12 @@ function initThermalTweak() {
     // Register with preset system
     if (typeof registerTweak === 'function') {
         registerTweak('thermal', {
-            getState: () => ({ ...thermalPendingState }),
+            getState: () => window.resolveBlankTweakFields(
+                thermalPendingState,
+                { custom_freq: 'thermal-custom_freq' },
+                thermalCurrentState,
+                thermalDefaultState
+            ),
             setState: (config) => {
                 thermalPendingState = { ...config };
                 renderThermalCard();
