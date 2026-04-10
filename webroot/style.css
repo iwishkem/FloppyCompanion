@@ -1198,6 +1198,8 @@ body {
 /* --- Preset Bar Styles --- */
 
 .preset-bar {
+    position: relative;
+    z-index: 0;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -2290,6 +2292,8 @@ beer-css.tweak-slider-scope .tweak-beer-slider:has(> input.beer-slider-input:dis
 }
 
 .section-shell {
+    position: relative;
+    z-index: 1;
     overflow: visible;
     background-color: var(--md-sys-color-surface-container);
     border-color: color-mix(in srgb, var(--md-sys-color-outline-variant) 84%, transparent);
