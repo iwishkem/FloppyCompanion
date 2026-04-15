@@ -255,8 +255,8 @@
             "idlerDowndifferential": "Diferencial Descendente",
             "idlerIdlewait": "Espera en Inactivo",
             "idlerIdleworkload": "Carga de Trabajo en Inactivo",
-            "enabled": "Habilitado",
-            "disabled": "Deshabilitado"
+            "enabled": "Activado",
+            "disabled": "Desactivado"
         },
         "undervolt": {
             "title": "Undervolt",
@@ -277,8 +277,8 @@
             "gpuClkLock": "Bloqueo de Reloj GPU",
             "throttlersProtection": "Protección contra Throttling",
             "gpuUnlock": "Overclock GPU",
-            "enabled": "Habilitado",
-            "disabled": "Deshabilitado"
+            "enabled": "Activado",
+            "disabled": "Desactivado"
         },
         "miscGenericTitle": "Tweaks Misc",
         "exynos": {
@@ -287,8 +287,8 @@
         "miscTrinket": {
             "title": "Tweaks Misc FloppyTrinket",
             "touchboost": "MSM Performance Touchboost",
-            "enabled": "Habilitado",
-            "disabled": "Deshabilitado"
+            "enabled": "Activado",
+            "disabled": "Desactivado"
         },
         "soundcontrol": {
             "title": "Control de Sonido",
