@@ -37,28 +37,21 @@ function getLmkdEnabledDisabledText(value) {
     if (value === '1') {
         return window.t ? window.t('tweaks.lmkd.enabled') : 'Enabled';
     }
-    return window.t ? window.t('tweaks.lmkd.disabled') : 'Disabled';
+    if (value === '0') {
+        return window.t ? window.t('tweaks.lmkd.disabled') : 'Disabled';
+    }
+    return window.t ? window.t('home.unknown') : 'Unknown';
+}
+
+function getLmkdUnknownText() {
+    return window.t ? window.t('home.unknown') : 'Unknown';
 }
 
 function getLmkdFallbackValue(key) {
-    if (LMKD_BOOLEAN_KEYS.includes(key)) {
-        return key === 'use_psi' ? '1' : '0';
-    }
-
     switch (key) {
-        case 'low': return '1001';
-        case 'medium': return '800';
-        case 'critical': return '0';
-        case 'upgrade_pressure': return '100';
-        case 'downgrade_pressure': return '100';
-        case 'kill_timeout_ms': return '0';
-        case 'psi_partial_stall_ms': return '70';
-        case 'psi_complete_stall_ms': return '700';
-        case 'thrashing_limit': return '100';
-        case 'thrashing_limit_decay': return '10';
-        case 'swap_util_max': return '100';
-        case 'swap_free_low_percentage': return '20';
-        default: return '0';
+        case 'use_psi': return '1';
+        case 'use_minfree_levels': return '0';
+        default: return '';
     }
 }
 
@@ -174,6 +167,7 @@ function renderLmkdBoolean(key) {
     if (toggle) {
         toggle.disabled = lockToggle;
         toggle.checked = pendingValue === '1';
+        toggle.indeterminate = pendingValue === '';
     }
     if (switchContainer) {
         switchContainer.style.opacity = lockToggle ? '0.5' : '1';
@@ -204,12 +198,12 @@ function renderLmkdNumber(key) {
             lmkdCurrentState,
             getLmkdFallbackValue(key)
         );
-        input.placeholder = placeholder;
+        input.placeholder = placeholder || '--';
         input.value = value;
     }
 
     if (label) {
-        label.textContent = currentVal || '--';
+        label.textContent = currentVal || getLmkdUnknownText();
     }
 }
 

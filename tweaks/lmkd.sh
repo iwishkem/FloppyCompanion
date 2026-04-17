@@ -33,57 +33,11 @@ default_for() {
         use_psi)
             echo "1"
             ;;
-        use_minfree_levels|critical_upgrade|kill_heaviest_task)
+        use_minfree_levels)
             echo "0"
-            ;;
-        low)
-            echo "1001"
-            ;;
-        medium)
-            echo "800"
-            ;;
-        critical)
-            echo "0"
-            ;;
-        upgrade_pressure|downgrade_pressure|swap_util_max)
-            echo "100"
-            ;;
-        kill_timeout_ms)
-            echo "0"
-            ;;
-        psi_partial_stall_ms)
-            if is_low_ram_device; then
-                echo "200"
-            else
-                echo "70"
-            fi
-            ;;
-        psi_complete_stall_ms)
-            echo "700"
-            ;;
-        thrashing_limit)
-            if is_low_ram_device; then
-                echo "30"
-            else
-                echo "100"
-            fi
-            ;;
-        thrashing_limit_decay)
-            if is_low_ram_device; then
-                echo "50"
-            else
-                echo "10"
-            fi
-            ;;
-        swap_free_low_percentage)
-            if is_low_ram_device; then
-                echo "10"
-            else
-                echo "20"
-            fi
             ;;
         *)
-            echo "0"
+            echo ""
             ;;
     esac
 }
