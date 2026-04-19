@@ -1,0 +1,98 @@
+{
+    "1280": {
+        "superfloppy": {
+            "title": "Modo Desbloqueado",
+            "desc": "Ajustes da CPU e GPU pra o FloppyKernel.",
+            "options": {
+                "1": {
+                    "label": "Habilitado (Overclock)",
+                    "desc": "CL0 = 2.2 GHz (OC), CL1 = 2.496 GHz (OC), GPU = 1.209 GHz (OC), UV desabilitado."
+                },
+                "2": {
+                    "label": "MegaFloppy (Overclock, arriscado)",
+                    "desc": "CL0 = 2.2 GHz (OC), CL1 = 2.6 GHz (OC), GPU = 1.209 GHz (OC), UV desabilitado."
+                },
+                "3": {
+                    "label": "UltraFloppy (Overclock, arriscado)",
+                    "desc": "CL0 = 2.2 GHz (OC), CL1 = 2.704 GHz (OC), GPU = 1.209 GHz (OC), UV desabilitado."
+                },
+                "4": {
+                    "label": "CoolFloppy (Underclock)",
+                    "desc": "CL0 = 2.0 GHz (padrão), CL1 = 2.112 GHz (UC), GPU = 897 MHz (padrão), UV habilitado."
+                },
+                "5": {
+                    "label": "BalancedFloppy (Overclock)",
+                    "desc": "CL0 = 2.2 GHz (OC), CL1 = 2.4 GHz (padrão), GPU = 897 MHz (padrão), UV desabilitado."
+                }
+            }
+        }
+    },
+    "force_perm": {
+        "title": "Forçar Permissive",
+        "desc": "Forçar o SELinux no modo Permissive. Para desenvolvedores."
+    },
+    "ems_efficient": {
+        "title": "Modo de Eficiência da EMS",
+        "desc": "Habilitar o modo EMS scheduler eficiente. Reduz performance e melhora a bateria."
+    },
+    "aosp_mode": {
+        "title": "Modo AOSP",
+        "desc": "Habilita hacks específicos para o AOSP."
+    },
+    "no_init_protection": {
+        "title": "Matar a Proteção do Init",
+        "desc": "Permite Power HALs e init scripts modificar os knobs do kernel. Habilite se você quiser que a ROM controle a performance."
+    },
+    "init_protection": {
+        "title": "Proteção do Init",
+        "desc": "Evita que Power HALs e init scripts modifiquem os knobs do kernel. Desative se você quiser que a ROM controle a performance."
+    },
+    "legacy_timestamp_source": {
+        "title": "Timestamp Legado",
+        "desc": "Corrige problemas de duração da gravação de vídeo em ROMs com HALs de câmera legados."
+    },
+    "no_msm_perf_boost": {
+        "title": "Desativar Boost MSM",
+        "desc": "Previne o MSM Performance de sobrescrever as frequências mín/máx da CPU. Pode reduzir a responsividade."
+    },
+    "warm_reboot": {
+        "title": "Forçar Reinicialização Warm",
+        "desc": "Preserva a RAM quando reiniciar pra pegar os logs mais facilmente. Recomendado apenas para depuração, pode causar WiFi não funcional."
+    },
+    "uname_bpf_spoof": {
+        "title": "Falsificação pro BPF",
+        "desc": "Falsifica a versão do Linux para ter suporte ao BPF. Gerenciado externamente; alterar isso manualmente pode causar bootloops.",
+        "options": {
+            "1": {
+                "label": "Falsificação Parcial",
+                "desc": "Falsifica apenas o uname para o netbpfload."
+            },
+            "5": {
+                "label": "Falsificação Completa",
+                "desc": "Falsifica o uname para vários serviços relacionados ao BPF."
+            }
+        }
+    },
+    "mass_storage_hack": {
+        "title": "Hack para Suporte a Mass Storage",
+        "desc": "Injecta o gadget que lida com o mass_storage no init.exynos2100.usb.rc do vendor para permitir que apps como DriveDroid funcionem."
+    },
+    "selinux_mode": {
+        "title": "Forçar Modo do SELinux",
+        "desc": "Forçar o modo do SELinux. Para desenvolvedores.",
+        "options": {
+            "0": {
+                "label": "Padrão",
+                "desc": "Use o modo do SELinux padrão do kernel."
+            },
+            "1": {
+                "label": "Sempre Enforcing",
+                "desc": "Forçar o modo Enforcing do SELinux na inicialização."
+            },
+            "2": {
+                "label": "Sempre Permissive",
+                "desc": "Forçar o modo Permissive do SELinux na inicialização."
+            }
+        }
+    }
+}

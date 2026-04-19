@@ -12,6 +12,11 @@
             "dir": "ltr"
         },
         {
+            "code": "pt_BR",
+            "name": "Português (Brasil)",
+            "dir": "ltr"
+        },
+        {
             "code": "tr",
             "name": "Türkçe",
             "dir": "ltr"

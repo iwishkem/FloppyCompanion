@@ -31,6 +31,14 @@
                 }
             ]
         },
+        "pt_BR": {
+            "contributors": [
+                {
+                    "name": "ThePedroo",
+                    "url": "https://github.com/ThePedroo"
+                }
+            ]
+        },
         "tr": {
             "contributors": [
                 {
