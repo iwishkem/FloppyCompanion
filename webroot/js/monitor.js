@@ -36,7 +36,7 @@
         const units = ['B', 'KiB', 'MiB', 'GiB', 'TiB'];
         let idx = 0;
         let num = value;
-        while (num >= 1024 && idx < units.length - 1) {
+        while (num >= 1024 && idx < 2) {
             num /= 1024;
             idx++;
         }
