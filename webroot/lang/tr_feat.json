@@ -43,6 +43,68 @@
         "title": "Init Korumasını Kaldır",
         "desc": "Power HAL'lerin ve init betiklerinin kernel ayarlarını değiştirmesine izin ver. Performansı ROM'un kontrol etmesini istiyorsanız etkinleştirin."
     },
+    "init_protection": {
+        "title": "Init Koruması",
+        "desc": "Power HAL'lerin ve init betiklerinin kernel ayarlarını değiştirmesini engeller. Performansı ROM'un kontrol etmesini istiyorsanız devre dışı bırakın."
+    },
+    "legacy_timestamp_source": {
+        "title": "Eski Zaman Damgası",
+        "desc": "Eski kamera HAL'lerine sahip ROM'larda video kayıt uzunluğu sorunlarını düzeltir."
+    },
+    "no_msm_perf_boost": {
+        "title": "MSM Boost'u Devre Dışı Bırak",
+        "desc": "MSM Performance'ın CPU min/maks frekanslarının üzerine yazmasını engeller. Tepkiselliği azaltabilir."
+    },
+    "warm_reboot": {
+        "title": "Sıcak Yeniden Başlatmayı Zorla (Warm Reboot)",
+        "desc": "Günlükleri daha kolay toplamak için yeniden başlatmada RAM'i korur. Yalnızca hata ayıklama için önerilir, WiFi'nin bozulmasına neden olabilir."
+    },
+    "uname_bpf_spoof": {
+        "title": "BPF Spoofing",
+        "desc": "BPF desteği için Linux sürümünü sahte gösterir (spoof). Harici olarak yönetilir; bunu manuel olarak değiştirmek önyükleme döngülerine (bootloop) neden olabilir.",
+        "options": {
+            "1": {
+                "label": "Kısmi sahtecilik",
+                "desc": "Sadece netbpfload için uname'i sahte gösterir."
+            },
+            "5": {
+                "label": "Tam sahtecilik",
+                "desc": "Birkaç bpf ile ilgili servis için uname'i sahte gösterir."
+            }
+        }
+    },
+    "mass_storage_hack": {
+        "title": "Mass Storage Destek Yaması",
+        "desc": "DriveDroid gibi uygulamaların çalışmasına izin vermek için mass_storage gadget işleyicisini vendor'un init.exynos2100.usb.rc betiğine enjekte eder."
+    },
+    "selinux_mode": {
+        "title": "SELinux Modunu Zorla",
+        "desc": "SELinux modunu zorla. Geliştiriciler içindir.",
+        "options": {
+            "0": {
+                "label": "Varsayılan",
+                "desc": "Kernelin varsayılan SELinux modunu kullan."
+            },
+            "1": {
+                "label": "Her Zaman Enforcing",
+                "desc": "Önyüklemede SELinux Enforcing modunu zorla."
+            },
+            "2": {
+                "label": "Her Zaman Permissive",
+                "desc": "Önyüklemede SELinux Permissive modunu zorla."
+            }
+        }
+    }
+}
+    },
+    "aosp_mode": {
+        "title": "AOSP Modu",
+        "desc": "AOSP'ye özgü yamaları etkinleştir."
+    },
+    "no_init_protection": {
+        "title": "Init Korumasını Kaldır",
+        "desc": "Power HAL'lerin ve init betiklerinin kernel ayarlarını değiştirmesine izin ver. Performansı ROM'un kontrol etmesini istiyorsanız etkinleştirin."
+    },
     "legacy_timestamp_source": {
         "title": "Eski Zaman Damgası",
         "desc": "Eski kamera HAL'lerine sahip ROM'larda video kayıt uzunluğu sorunlarını düzeltir."
